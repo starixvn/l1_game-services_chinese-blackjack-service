@@ -1,0 +1,7 @@
+variables:
+  SMOKE_PRODUCT_NAME: ChineseBlackjack
+
+include:
+  - project: ci/core-cicd
+    ref: main
+    file: luminet.gitlab-ci.yml

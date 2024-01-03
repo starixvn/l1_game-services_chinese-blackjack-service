@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testExecutions version="1">
+    <file path="D:\Lumi\chinese-blackjack\src\consumers\__tests__\settle-game-consumer.test.js">
+        <testCase name="settle round tests should delete ingame, publish round result delete data in game notification" duration="7">
+            <failure message="TypeError: Cannot read properties of undefined (reading &apos;rank&apos;)"><![CDATA[TypeError: Cannot read properties of undefined (reading 'rank')
+    at getCombinationRank (D:\Lumi\chinese-blackjack\src\helpers\card-helper.js:48:53)
+    at GameDefinition.settle (D:\Lumi\chinese-blackjack\src\helpers\dealer.js:25:33)
+    at SettleGameConsumer.settle [as calculateBetResult] (D:\Lumi\chinese-blackjack\src\consumers\settle-game-consumer.js:83:53)
+    at calculateBetResult (D:\Lumi\chinese-blackjack\src\consumers\settle-game-consumer.js:54:44)
+    at Array.map (<anonymous>)
+    at SettleGameConsumer.map [as settleBets] (D:\Lumi\chinese-blackjack\src\consumers\settle-game-consumer.js:53:22)
+    at SettleGameConsumer.settleRound (D:\Lumi\chinese-blackjack\src\consumers\settle-game-consumer.js:36:9)
+    at Object.<anonymous> (D:\Lumi\chinese-blackjack\src\consumers\__tests__\settle-game-consumer.test.js:116:9)]]></failure>
+        </testCase>
+        <testCase name="settle bet tests should delete ingame, publish round result" duration="0"/>
+    </file>
+</testExecutions>

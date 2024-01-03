@@ -1,0 +1,72 @@
+import constants from "./../constants";
+
+export const calculate = (cards = []) => {
+    const handValues = cards.reduce(
+        (total, card) => {
+            const values = getValue(card);
+            const points = total.flatMap((acc) => values.map((val) => val + acc));
+
+            return [...new Set(points)];
+        },
+        [0]
+    );
+
+    const maxValidPoint = handValues.find((val) => val <= constants.blackjack);
+    const minPoint = handValues[handValues.length - 1];
+
+    return [...new Set([maxValidPoint, minPoint])].filter((val) => val);
+};
+
+export const calculateFinalValue = (cards) => {
+    const handValues = calculate(cards);
+
+    const maxValidPoint = handValues.find((val) => val <= constants.blackjack);
+    const minBustPoint = handValues[handValues.length - 1];
+
+    return maxValidPoint || minBustPoint;
+};
+
+export const getCombinationRank = (cards) => {
+    return (
+        [
+            {
+                isValid: isDoubleA(cards),
+                rank: constants.combinationRank.banBan,
+            },
+            {
+                isValid: isBlackjack(cards),
+                rank: constants.combinationRank.banLuck,
+            },
+            {
+                isValid: isBust(cards),
+                rank: constants.combinationRank.bust,
+            },
+            {
+                isValid: isFiveCardTrick(cards),
+                rank: constants.combinationRank.fiveCardTricks,
+            },
+        ].find((combination) => combination.isValid).rank ?? constants.combinationRank.regular
+    );
+};
+
+const getValue = (card) => {
+    switch (card.rank) {
+        case "A":
+            return [...constants.aceValues];
+        case "J":
+        case "Q":
+        case "K":
+            return [constants.JQKValue];
+        default:
+            return [+card.rank];
+    }
+};
+
+const isAce = (card) => card.rank === "A";
+
+export const isDoubleA = (cards) => cards.length === 2 && isAce(cards[0]) && isAce(cards[1]);
+export const isBlackjack = (cards) => cards.length === 2 && calculate(cards)[0] === constants.blackjack;
+
+export const isFiveCardTrick = (cards) => cards.length === constants.maxCardsOnHand && calculateFinalValue(cards) <= constants.blackjack;
+
+export const isBust = (cards) => calculate(cards)[0] > constants.blackjack;
