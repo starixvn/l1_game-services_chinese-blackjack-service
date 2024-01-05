@@ -64,8 +64,10 @@ const getValue = (card) => {
 
 const isAce = (card) => card.rank === "A";
 
+const isTenPoint = (card) => ["J", "Q", "K", "10"].includes(card.rank);
+
 export const isDoubleA = (cards) => cards.length === 2 && isAce(cards[0]) && isAce(cards[1]);
-export const isBlackjack = (cards) => cards.length === 2 && calculate(cards)[0] === constants.blackjack;
+export const isBlackjack = (cards) => cards.length === 2 && cards.some((card) => isAce(card) && cards.some((card) => isTenPoint(card)));
 
 export const isFiveCardTrick = (cards) => cards.length === constants.maxCardsOnHand && calculateFinalValue(cards) <= constants.blackjack;
 
