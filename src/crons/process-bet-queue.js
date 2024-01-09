@@ -1,13 +1,13 @@
 import _ from "lodash";
 import { helpers } from "sc-common";
-import ProcessBetQueue from "sc-game-base/src/core/crons/process-bet-queue";
+import { Core } from "sc-game-base";
 import constants from "../constants";
 import SettleGameConsumer from "../consumers/settle-game-consumer";
 import gameSettings from "../game-settings";
 import { calculate, calculateFinalValue, isBlackjack, isDoubleA } from "../helpers/card-helper";
 import { generateDecks } from "../helpers/deck-helper";
 
-export default class ProcessBetQueue extends ProcessBetQueue {
+export default class ProcessBetQueue extends Core.Crons.ProcessBetQueue {
     posOrder = [1, 4, 2, 5, 3, 6];
 
     /**

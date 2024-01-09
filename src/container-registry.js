@@ -7,12 +7,12 @@ import PontoonBot from "./crons/bot";
 import PontoonProcessBetQueue from "./crons/process-bet-queue";
 
 import { gameNotifications } from "sc-base-database";
-import { PontoonBets } from "./models/chinese-blackjack-bets";
-import { PontoonRounds } from "./models/chinese-blackjack-rounds";
+import { ChineseBlackjackBets } from "./models/chinese-blackjack-bets";
+import { ChineseBlackjackRounds } from "./models/chinese-blackjack-rounds";
 import RoundResultPublisher from "./publishers/round-result-publisher";
 import HistoryQuery from "./query-apis/history-query";
 import HttpRouter from "./routers/http-router";
-import PontoonSocketRouter from "./routers/socket-router";
+import SocketRouter from "./routers/socket-router";
 
 const { asClass, asValue } = awilix;
 
@@ -21,8 +21,8 @@ export default class ContainerRegistry extends Table.TableContainerRegistry {
         super.registerModels();
 
         this.container.register({
-            roundsRepository: asValue(PontoonRounds),
-            betsRepository: asValue(PontoonBets),
+            roundsRepository: asValue(ChineseBlackjackRounds),
+            betsRepository: asValue(ChineseBlackjackBets),
             gameNotificationsRepository: asValue(gameNotifications),
         });
     }
@@ -52,7 +52,7 @@ export default class ContainerRegistry extends Table.TableContainerRegistry {
         super.registerRouters();
 
         this.container.register({
-            socketRouter: asClass(PontoonSocketRouter).proxy(),
+            socketRouter: asClass(SocketRouter).proxy(),
             httpRouter: asClass(HttpRouter),
         });
     }
