@@ -4,10 +4,10 @@ import { settle } from "../src/helpers/dealer";
 import constants from "../src/constants";
 
 const odds = {
-    banBan: 4,
-    banLuck: 3,
+    banBan: 3,
+    banLuck: 2,
     regular: 2,
-    fiveCardTrick: 4,
+    fiveCardTrick: 3,
 };
 
 function run() {
@@ -98,10 +98,6 @@ function run() {
 
         playerCards.forEach((hand) => {
             const rs = settle(dealerCards, { cards: hand }, odds);
-
-            if (isNaN(rs)) {
-                console.log(rs);
-            }
 
             rtp += rs;
         });

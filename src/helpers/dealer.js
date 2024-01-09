@@ -1,23 +1,16 @@
 import constants from "./../constants";
-import { calculate, calculateFinalValue, isBust, isBlackjack, getCombinationRank, isDoubleA } from "./card-helper";
+import { calculateFinalValue, isBust, isBlackjack, getCombinationRank, isDoubleA } from "./card-helper";
 
 export const generateResult = (dealerCards, decks, isUpCard, preGeneratedCards = []) => {
     if (isUpCard) {
         return { result: dealerCards, settlementResult: calculateFinalValue(dealerCards) };
     }
 
-    let points = calculate(dealerCards);
-
-    while (
-        ((points.at(-1) < constants.minDealerPoint && points.length === 1) ||
-            (points.length > 1 && points.at(-1) < constants.minDealerSoftPoint)) &&
-        dealerCards.length < constants.maxCardsOnHand
-    ) {
+    while (dealerCards.length < constants.maxCardsOnHand && calculateFinalValue(dealerCards) < constants.minDealerPoint) {
         dealerCards.push(preGeneratedCards.shift() ?? decks.shift());
-        points = calculate(dealerCards);
     }
 
-    return { result: dealerCards, settlementResult: points.at(-1) };
+    return { result: dealerCards, settlementResult: calculateFinalValue(dealerCards) };
 };
 
 export const settle = (dealerCards, bet, odds) => {
