@@ -59,7 +59,6 @@ export const settle = (dealerCards, bet, odds) => {
 
 export const isUpCards = (hands) => {
     const blackjackCount = hands.filter((hand) => isBlackjack(hand.cards) || isDoubleA(hand.cards)).length;
-    const bustCount = hands.filter((hand) => isBust(hand.cards)).length;
 
-    return blackjackCount + bustCount === hands.length;
+    return blackjackCount === hands.length;
 };
