@@ -42,7 +42,7 @@ export const settle = (dealerCards, bet, odds) => {
     }
 
     if (player.rank === dealer.rank) {
-        if (player.rank == constants.combinationRank.fiveCardTricks && player.val < dealer.val) {
+        if (player.rank == constants.combinationRank.fiveCardTrick && player.val < dealer.val) {
             winLoss = 1;
         }
 

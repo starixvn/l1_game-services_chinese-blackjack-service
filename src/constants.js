@@ -11,7 +11,7 @@ export default {
     combinationRank: {
         banBan: 0,
         banLuck: 1,
-        fiveCardTricks: 2,
+        fiveCardTrick: 2,
         regular: 3,
         bust: 4,
     },
