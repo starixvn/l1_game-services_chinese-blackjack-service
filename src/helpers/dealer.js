@@ -31,35 +31,37 @@ export const settle = (dealerCards, bet, odds) => {
         val: calculateFinalValue(dealerCards),
     };
 
-    let winLoss = 0;
+    const compareRank = dealer.rank - player.rank;
+    const compareValue = player.val - dealer.val;
 
-    if (player.rank < dealer.rank) {
-        winLoss = -1;
-    }
+    let winLoss = compareRank;
 
-    if (player.rank > dealer.rank) {
-        winLoss = 1;
-    }
+    if (compareRank == 0) {
+        winLoss = compareValue;
 
-    if (player.rank === dealer.rank) {
-        if (player.rank == constants.combinationRank.fiveCardTrick && player.val < dealer.val) {
-            winLoss = 1;
+        if (player.rank == constants.combinationRank.fiveCardTrick) {
+            winLoss = -compareValue;
         }
 
-        if (player.rank === constants.combinationRank.bust && player.val > constants.maxPlayerBustPoint) {
-            winLoss = -1;
+        if (player.rank == constants.combinationRank.bust) {
+            if (player.val > constants.maxPlayerBustPoint) {
+                winLoss = -1;
+            } else {
+                winLoss = 0;
+            }
         }
     }
 
-    switch (winLoss) {
-        case 0:
-            return 1;
-        case 1:
-            const combinationKey = Object.keys(constants.combinationRank).find((key) => constants.combinationRank[key] === player.rank);
-            return odds[combinationKey];
-        case -1:
-            return 0;
+    if (winLoss > 0) {
+        const combinationKey = Object.keys(constants.combinationRank).find((key) => constants.combinationRank[key] === player.rank);
+        return odds[combinationKey];
     }
+
+    if (winLoss == 0) {
+        return 1;
+    }
+
+    return 0;
 };
 
 export const isUpCards = (hands) => {

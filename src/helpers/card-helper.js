@@ -45,7 +45,7 @@ export const getCombinationRank = (cards) => {
                 isValid: isFiveCardTrick(cards),
                 rank: constants.combinationRank.fiveCardTrick,
             },
-        ].find((combination) => combination.isValid).rank ?? constants.combinationRank.regular
+        ].find((combination) => combination.isValid)?.rank ?? constants.combinationRank.regular
     );
 };
 
