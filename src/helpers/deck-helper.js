@@ -36,7 +36,7 @@ const randomModes = {
 };
 
 export const generateDecks = (exclusions, randomMode) => {
-    const baseDeck = [...cards];
+    const baseDeck = [...cards, ...cards];
     const randomShuffles = randomModes[randomMode] ?? randomModes[1];
     const randomShuffle = chance.pickone(randomShuffles);
 
