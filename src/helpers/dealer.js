@@ -24,6 +24,10 @@ export const settle = (dealerCards, bet, odds) => {
         val: calculateFinalValue(dealerCards),
     };
 
+    if (player.val < constants.minPlayerPoint) {
+        return 0;
+    }
+
     const compareRank = dealer.rank - player.rank;
     const compareValue = player.val - dealer.val;
 

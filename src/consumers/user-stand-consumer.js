@@ -1,6 +1,4 @@
-import constants from "../constants";
 import gameSettings from "../game-settings";
-import { calculate } from "../helpers/card-helper";
 import noticeHelper from "../helpers/notice-helper";
 import BaseActionConsumer from "./base-action-consumer";
 
@@ -23,10 +21,6 @@ export default class UserStandConsumer extends BaseActionConsumer {
             {
                 failure: hand?.id !== playerData.betTracks.activeHandId,
                 notice: this.getNoticeObj(noticeHelper.handNotActive),
-            },
-            {
-                failure: !calculate(hand?.cards).some((currentHand) => currentHand >= constants.minPlayerPoint),
-                notice: this.getNoticeObj(noticeHelper.invalidStandPoint),
             },
         ]);
     }
