@@ -28,6 +28,21 @@ export const settle = (dealerCards, bet, odds) => {
         return 0;
     }
 
+    let winLoss = calculateWinLoss(player, dealer);
+
+    if (winLoss > 0) {
+        const combinationKey = Object.keys(constants.combinationRank).find((key) => constants.combinationRank[key] === player.rank);
+        return odds[combinationKey];
+    }
+
+    if (winLoss == 0) {
+        return 1;
+    }
+
+    return 0;
+};
+
+const calculateWinLoss = (player, dealer) => {
     const compareRank = dealer.rank - player.rank;
     const compareValue = player.val - dealer.val;
 
@@ -49,16 +64,7 @@ export const settle = (dealerCards, bet, odds) => {
         }
     }
 
-    if (winLoss > 0) {
-        const combinationKey = Object.keys(constants.combinationRank).find((key) => constants.combinationRank[key] === player.rank);
-        return odds[combinationKey];
-    }
-
-    if (winLoss == 0) {
-        return 1;
-    }
-
-    return 0;
+    return winLoss;
 };
 
 export const isUpCards = (hands) => {
