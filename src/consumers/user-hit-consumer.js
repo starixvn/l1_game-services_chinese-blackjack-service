@@ -17,9 +17,7 @@ export default class UserHitConsumer extends BaseActionConsumer {
                 notice: this.getNoticeObj(noticeHelper.invalidHandId),
             },
             {
-                failure:
-                    calculate(hand?.cards).some((currentHand) => currentHand == constants.blackjack) ||
-                    hand?.cards?.length >= constants.maxCardsOnHand,
+                failure: hand?.cards?.length >= constants.maxCardsOnHand,
                 notice: this.getNoticeObj(noticeHelper.cantHit),
             },
             {
