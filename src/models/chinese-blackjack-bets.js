@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const modelName = "blackjack_bet";
+const modelName = "chineseblackjack_bet";
 
 const schema = new mongoose.Schema({
     id: { type: Number, default: 0 },
