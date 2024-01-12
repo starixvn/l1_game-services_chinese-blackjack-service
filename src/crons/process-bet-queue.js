@@ -8,8 +8,6 @@ import { calculate, calculateFinalValue, isBlackjack, isDoubleA } from "../helpe
 import { generateDecks } from "../helpers/deck-helper";
 
 export default class ProcessBetQueue extends Core.Crons.ProcessBetQueue {
-    posOrder = [1, 4, 2, 5, 3, 6];
-
     /**
      * @param {SettleGameConsumer} settleGameRoundConsumer
      */

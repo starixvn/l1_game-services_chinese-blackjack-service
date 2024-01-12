@@ -3,7 +3,7 @@ import constants from "./../constants";
 export const calculate = (cards = []) => {
     const handValues = cards.reduce(
         (total, card) => {
-            const values = getValue(card);
+            const values = getValue(card, cards.length);
             const points = total.flatMap((acc) => values.map((val) => val + acc));
 
             return [...new Set(points)];
@@ -49,10 +49,10 @@ export const getCombinationRank = (cards) => {
     );
 };
 
-const getValue = (card) => {
+const getValue = (card, numOfCards) => {
     switch (card.rank) {
         case "A":
-            return [...constants.aceValues];
+            return numOfCards > 3 ? [1] : [...constants.aceValues];
         case "J":
         case "Q":
         case "K":

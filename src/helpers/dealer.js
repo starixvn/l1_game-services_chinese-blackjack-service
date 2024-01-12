@@ -1,5 +1,5 @@
 import constants from "./../constants";
-import { calculateFinalValue, isBust, isBlackjack, getCombinationRank, isDoubleA } from "./card-helper";
+import { calculateFinalValue, isBlackjack, getCombinationRank, isDoubleA, isBust } from "./card-helper";
 
 export const generateResult = (dealerCards, decks, isUpCard, preGeneratedCards = []) => {
     if (isUpCard) {
@@ -24,10 +24,6 @@ export const settle = (dealerCards, bet, odds) => {
         val: calculateFinalValue(dealerCards),
     };
 
-    if (player.val < constants.minPlayerPoint) {
-        return 0;
-    }
-
     let winLoss = calculateWinLoss(player, dealer);
 
     if (winLoss > 0) {
@@ -35,11 +31,7 @@ export const settle = (dealerCards, bet, odds) => {
         return odds[combinationKey];
     }
 
-    if (winLoss == 0) {
-        return 1;
-    }
-
-    return 0;
+    return winLoss == 0 ? 1 : 0;
 };
 
 const calculateWinLoss = (player, dealer) => {
@@ -48,19 +40,15 @@ const calculateWinLoss = (player, dealer) => {
 
     let winLoss = compareRank;
 
+    if (player.val < constants.minPlayerPoint || player.rank == constants.combinationRank.bust) {
+        return -1;
+    }
+
     if (compareRank == 0) {
         winLoss = compareValue;
 
         if (player.rank == constants.combinationRank.fiveCardTrick) {
             winLoss = -compareValue;
-        }
-
-        if (player.rank == constants.combinationRank.bust) {
-            if (player.val > constants.maxPlayerBustPoint) {
-                winLoss = -1;
-            } else {
-                winLoss = 0;
-            }
         }
     }
 
@@ -68,7 +56,7 @@ const calculateWinLoss = (player, dealer) => {
 };
 
 export const isUpCards = (hands) => {
-    const blackjackCount = hands.filter((hand) => isBlackjack(hand.cards) || isDoubleA(hand.cards)).length;
+    const totalUpHand = hands.filter((hand) => isBlackjack(hand.cards) || isDoubleA(hand.cards) || isBust(hand.cards)).length;
 
-    return blackjackCount === hands.length;
+    return totalUpHand === hands.length;
 };

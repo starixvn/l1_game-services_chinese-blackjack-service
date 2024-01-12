@@ -1,7 +1,6 @@
-import { calculateFinalValue, isBlackjack, isBust, isDoubleA } from "../src/helpers/card-helper";
+import { calculateFinalValue, isBlackjack, isBust, isDoubleA, isFiveCardTrick } from "../src/helpers/card-helper";
 import { generateDecks } from "../src/helpers/deck-helper";
 import { settle } from "../src/helpers/dealer";
-import constants from "../src/constants";
 
 const odds = {
     banBan: 3,
@@ -11,7 +10,7 @@ const odds = {
 };
 
 function run() {
-    const totalRounds = 1_000_000;
+    const totalRounds = 100_000;
     const cardStatistic = {
         A: { count: 0, ratio: 0 },
         K: { count: 0, ratio: 0 },
@@ -42,15 +41,19 @@ function run() {
                 count: 0,
                 ratio: 0,
             },
+            five: {
+                count: 0,
+                ratio: 0,
+            },
         },
     };
 
     const { player, dealer } = blackJackStatistic;
 
-    const totalHand = 3;
+    const totalHand = 1;
     const randomMode = 3;
 
-    let rtp = -(totalRounds * totalHand);
+    let rtp = totalRounds * totalHand;
 
     for (let index = 0; index < totalRounds; index++) {
         const desk = generateDecks([], randomMode);
@@ -71,6 +74,10 @@ function run() {
                     count: 0,
                     ratio: 0,
                 },
+                five: {
+                    count: 0,
+                    ratio: 0,
+                },
             };
 
             playerCards[handIndex] = [desk.shift(), desk.shift()];
@@ -78,11 +85,12 @@ function run() {
             isBlackjack(playerCards[handIndex]) && player[handIndex].banluck.count++;
             isDoubleA(playerCards[handIndex]) && player[handIndex].banban.count++;
 
-            while (playerCards[handIndex].length < 5 && calculateFinalValue(playerCards[handIndex]) < constants.minPlayerPoint) {
+            while (playerCards[handIndex].length < 5 && calculateFinalValue(playerCards[handIndex]) < 17) {
                 playerCards[handIndex].push(desk.shift());
             }
 
             isBust(playerCards[handIndex]) && player[handIndex].bust.count++;
+            isFiveCardTrick(playerCards[handIndex]) && player[handIndex].five.count++;
         }
 
         const dealerCards = [desk.shift(), desk.shift()];
@@ -90,22 +98,26 @@ function run() {
         isBlackjack(dealerCards) && dealer.banluck.count++;
         isDoubleA(dealerCards) && dealer.banban.count++;
 
-        while (dealerCards.length < 5 && calculateFinalValue(dealerCards) < constants.minDealerPoint) {
+        while (dealerCards.length < 5 && calculateFinalValue(dealerCards) < 17) {
             dealerCards.push(desk.shift());
         }
 
         isBust(dealerCards) && dealer.bust.count++;
+        isFiveCardTrick(dealerCards) && dealer.five.count++;
 
         playerCards.forEach((hand) => {
+            //if (!isBust(hand)) {
             const rs = settle(dealerCards, { cards: hand }, odds);
 
-            rtp += rs;
+            rtp -= rs;
+            //}
         });
     }
 
     dealer.banluck.ratio = dealer.banluck.count / totalRounds;
     dealer.banban.ratio = dealer.banban.count / totalRounds;
     dealer.bust.ratio = dealer.bust.count / totalRounds;
+    dealer.five.ratio = dealer.five.count / totalRounds;
 
     Object.values(cardStatistic).forEach((cardStat) => {
         cardStat.ratio = cardStat.count / totalRounds / (player.length * 2 + 2);
@@ -114,10 +126,11 @@ function run() {
         hand.banluck.ratio = hand.banluck.count / totalRounds;
         hand.banban.ratio = hand.banban.count / totalRounds;
         hand.bust.ratio = hand.bust.count / totalRounds;
+        hand.five.ratio = hand.five.count / totalRounds;
     });
 
     console.log(`======== Run ${totalRounds} rounds ========`);
-    console.log(rtp);
+    console.log(100 - (rtp / totalRounds) * 100);
     console.log(JSON.stringify(blackJackStatistic, undefined, 2));
 }
 
