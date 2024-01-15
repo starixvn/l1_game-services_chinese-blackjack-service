@@ -1,5 +1,6 @@
+import { cards } from "../card";
 import constants from "./../constants";
-import { calculateFinalValue, isBlackjack, getCombinationRank, isDoubleA, isBust } from "./card-helper";
+import { calculateFinalValue, isBlackjack, getCombinationRank, isDoubleA, isBust, isUnqualified } from "./card-helper";
 
 export const generateResult = (dealerCards, decks, isUpCard, preGeneratedCards = []) => {
     if (isUpCard) {
@@ -56,7 +57,9 @@ const calculateWinLoss = (player, dealer) => {
 };
 
 export const isUpCards = (hands) => {
-    const totalUpHand = hands.filter((hand) => isBlackjack(hand.cards) || isDoubleA(hand.cards) || isBust(hand.cards)).length;
+    const totalUpHand = hands.filter(
+        (hand) => isBlackjack(hand.cards) || isDoubleA(hand.cards) || isBust(hand.cards) || isUnqualified(cards)
+    ).length;
 
     return totalUpHand === hands.length;
 };
