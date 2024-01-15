@@ -18,10 +18,10 @@ export const calculate = (cards = []) => {
 };
 
 export const calculateFinalValue = (cards) => {
-    const handValues = calculate(cards);
+    const handValues = calculate(cards).sort((a, b) => b - a);
 
     const maxValidPoint = handValues.find((val) => val <= constants.blackjack);
-    const minBustPoint = handValues[0];
+    const minBustPoint = handValues[handValues.length - 1];
 
     return maxValidPoint || minBustPoint;
 };

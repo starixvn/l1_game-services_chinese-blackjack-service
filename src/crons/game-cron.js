@@ -132,7 +132,6 @@ export default class GameCron extends Core.Crons.BaseGameCron {
                     },
                     betQueue: [],
                 };
-                console.log(userHands);
 
                 this.gameData.ingame[round.name] = newPlayer;
             })
