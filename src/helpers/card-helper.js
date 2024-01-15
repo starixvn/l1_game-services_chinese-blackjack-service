@@ -14,7 +14,7 @@ export const calculate = (cards = []) => {
     const maxValidPoint = handValues.find((val) => val <= constants.blackjack);
     const minPoint = handValues[handValues.length - 1];
 
-    return [...new Set([maxValidPoint, minPoint])].filter((val) => val);
+    return [...new Set([minPoint, maxValidPoint])].filter((val) => val);
 };
 
 export const calculateFinalValue = (cards) => {
