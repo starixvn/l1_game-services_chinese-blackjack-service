@@ -13,5 +13,6 @@ export default {
         fiveCardTrick: 2,
         regular: 3,
         bust: 4,
+        unqualified: 5,
     },
 };
