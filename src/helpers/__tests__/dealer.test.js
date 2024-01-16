@@ -80,7 +80,25 @@ describe("dealer", () => {
     });
 
     describe("settle", () => {
-        const odds = { regular: 2, banBan: 2.5, banLuck: 3, fiveCardTrick: 3 };
+        const odds = { regular: 2, banBan: 3, banLuck: 2, fiveCardTrick: 3 };
+
+        it("should return banBan if both player is double A and dealer is not", () => {
+            const test = {
+                dealer: [
+                    { rank: "A", suit: 1 },
+                    { rank: "K", suit: 1 },
+                ],
+                bet: {
+                    actions: [],
+                    cards: [
+                        { rank: "A", suit: 2 },
+                        { rank: "A", suit: 1 },
+                    ],
+                },
+            };
+            expect(Dealer.settle(test.dealer, test.bet, odds)).toEqual(odds.banBan);
+        });
+
         it("should return 1 if both dealer and player are blackjack", () => {
             const test = {
                 dealer: [
@@ -116,7 +134,7 @@ describe("dealer", () => {
             ];
 
             tests.forEach((test) => {
-                expect(Dealer.settle(test.dealer, test.bet, odds)).toEqual(odds.blackjack);
+                expect(Dealer.settle(test.dealer, test.bet, odds)).toEqual(odds.banLuck);
             });
         });
 
@@ -151,7 +169,7 @@ describe("dealer", () => {
                 },
             ];
             tests.forEach((test) => {
-                expect(Dealer.settle(test.dealer, test.bet, odds)).toEqual(odds.blackjack);
+                expect(Dealer.settle(test.dealer, test.bet, odds)).toEqual(odds.banLuck);
             });
         });
 
@@ -245,6 +263,32 @@ describe("dealer", () => {
         });
 
         it.each([
+            {
+                dealer: [
+                    { rank: "A", suit: 1 },
+                    { rank: "A", suit: 4 },
+                ],
+                bet: {
+                    actions: [],
+                    cards: [
+                        { rank: "A", suit: 2 },
+                        { rank: "A", suit: 3 },
+                    ],
+                },
+            },
+            {
+                dealer: [
+                    { rank: "K", suit: 1 },
+                    { rank: "A", suit: 4 },
+                ],
+                bet: {
+                    actions: [],
+                    cards: [
+                        { rank: "10", suit: 2 },
+                        { rank: "A", suit: 3 },
+                    ],
+                },
+            },
             {
                 dealer: [
                     { rank: "J", suit: 1 },
