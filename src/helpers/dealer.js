@@ -58,7 +58,7 @@ const calculateWinLoss = (player, dealer) => {
 
 export const isUpCards = (hands) => {
     const totalUpHand = hands.filter(
-        (hand) => isBlackjack(hand.cards) || isDoubleA(hand.cards) || isBust(hand.cards) || isUnqualified(cards)
+        (hand) => isBlackjack(hand.cards) || isDoubleA(hand.cards) || isBust(hand.cards) || isUnqualified(hand.cards)
     ).length;
 
     return totalUpHand === hands.length;

@@ -80,8 +80,8 @@ describe("dealer", () => {
     });
 
     describe("settle", () => {
-        const odds = { regular: 2, blackjack: 3.5 };
-        it("should return 0 if both dealer and player are blackjack", () => {
+        const odds = { regular: 2, banBan: 2.5, banLuck: 3, fiveCardTrick: 3 };
+        it("should return 1 if both dealer and player are blackjack", () => {
             const test = {
                 dealer: [
                     { rank: "J", suit: 1 },
@@ -95,7 +95,7 @@ describe("dealer", () => {
                     ],
                 },
             };
-            expect(Dealer.settle(test.dealer, test.bet, odds)).toEqual(0);
+            expect(Dealer.settle(test.dealer, test.bet, odds)).toEqual(1);
         });
 
         it("should return blackjack odds if player is blackjack but dealer is not", () => {
