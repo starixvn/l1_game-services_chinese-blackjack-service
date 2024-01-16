@@ -1,5 +1,22 @@
 import constants from "./../constants";
 
+const getValue = (card, numOfCards) => {
+    switch (card.rank) {
+        case "A":
+            return numOfCards > 3 ? [1] : [...constants.aceValues];
+        case "J":
+        case "Q":
+        case "K":
+            return [constants.JQKValue];
+        default:
+            return [+card.rank];
+    }
+};
+
+const isAce = (card) => card.rank === "A";
+
+const isTenPoint = (card) => ["J", "Q", "K", "10"].includes(card.rank);
+
 export const calculate = (cards = []) => {
     const handValues = cards.reduce(
         (total, card) => {
@@ -53,27 +70,10 @@ export const getCombinationRank = (cards) => {
     );
 };
 
-const getValue = (card, numOfCards) => {
-    switch (card.rank) {
-        case "A":
-            return numOfCards > 3 ? [1] : [...constants.aceValues];
-        case "J":
-        case "Q":
-        case "K":
-            return [constants.JQKValue];
-        default:
-            return [+card.rank];
-    }
-};
-
-const isAce = (card) => card.rank === "A";
-
-const isTenPoint = (card) => ["J", "Q", "K", "10"].includes(card.rank);
-
 export const isDoubleA = (cards) => cards.length === 2 && isAce(cards[0]) && isAce(cards[1]);
 export const isBlackjack = (cards) => cards.length === 2 && cards.some((card) => isAce(card) && cards.some((card) => isTenPoint(card)));
 
 export const isFiveCardTrick = (cards) => cards.length === constants.maxCardsOnHand && calculateFinalValue(cards) <= constants.blackjack;
-export const isUnqualified = (cards) => calculateFinalValue(cards) <= constants.minPlayerPoint;
+export const isUnqualified = (cards) => calculateFinalValue(cards) < constants.minPlayerPoint;
 
 export const isBust = (cards) => calculate(cards)[0] > constants.blackjack;
