@@ -1,17 +1,314 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testExecutions version="1">
-    <file path="D:\Lumi\chinese-blackjack\src\consumers\__tests__\settle-game-consumer.test.js">
-        <testCase name="settle round tests should delete ingame, publish round result delete data in game notification" duration="7">
-            <failure message="TypeError: Cannot read properties of undefined (reading &apos;rank&apos;)"><![CDATA[TypeError: Cannot read properties of undefined (reading 'rank')
-    at getCombinationRank (D:\Lumi\chinese-blackjack\src\helpers\card-helper.js:48:53)
-    at GameDefinition.settle (D:\Lumi\chinese-blackjack\src\helpers\dealer.js:25:33)
-    at SettleGameConsumer.settle [as calculateBetResult] (D:\Lumi\chinese-blackjack\src\consumers\settle-game-consumer.js:83:53)
-    at calculateBetResult (D:\Lumi\chinese-blackjack\src\consumers\settle-game-consumer.js:54:44)
-    at Array.map (<anonymous>)
-    at SettleGameConsumer.map [as settleBets] (D:\Lumi\chinese-blackjack\src\consumers\settle-game-consumer.js:53:22)
-    at SettleGameConsumer.settleRound (D:\Lumi\chinese-blackjack\src\consumers\settle-game-consumer.js:36:9)
-    at Object.<anonymous> (D:\Lumi\chinese-blackjack\src\consumers\__tests__\settle-game-consumer.test.js:116:9)]]></failure>
+    <file path="D:\Lumi\chinese-blackjack\src\helpers\__tests__\card-helper.test.js">
+        <testCase name="calculate() should return blackjack" duration="49">
+            <failure message="Error: expect(received).toEqual(expected) // deep equality"><![CDATA[Error: expect(received).toEqual(expected) // deep equality
+
+- Expected  - 0
++ Received  + 1
+
+  Array [
++   11,
+    21,
+  ]
+    at toEqual (D:\Lumi\chinese-blackjack\src\helpers\__tests__\card-helper.test.js:30:54)
+    at Array.forEach (<anonymous>)
+    at Object.forEach (D:\Lumi\chinese-blackjack\src\helpers\__tests__\card-helper.test.js:29:15)
+    at Promise.then.completed (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (<anonymous>)
+    at callAsyncCircusFn (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:121:9)
+    at run (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\testWorker.js:106:12)]]></failure>
         </testCase>
-        <testCase name="settle bet tests should delete ingame, publish round result" duration="0"/>
+        <testCase name="calculate() when cards has aces, should return value correctly" duration="2">
+            <failure message="Error: expect(received).toEqual(expected) // deep equality"><![CDATA[Error: expect(received).toEqual(expected) // deep equality
+
+- Expected  - 0
++ Received  + 1
+
+  Array [
+    12,
++   21,
+  ]
+    at toEqual (D:\Lumi\chinese-blackjack\src\helpers\__tests__\card-helper.test.js:106:54)
+    at Array.forEach (<anonymous>)
+    at Object.forEach (D:\Lumi\chinese-blackjack\src\helpers\__tests__\card-helper.test.js:105:15)
+    at Promise.then.completed (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (<anonymous>)
+    at callAsyncCircusFn (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:121:9)
+    at run (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\testWorker.js:106:12)]]></failure>
+        </testCase>
+        <testCase name="calculate() should calculate value correctly" duration="6"/>
+        <testCase name="calculateFinalValue() should return single value" duration="4">
+            <failure message="Error: expect(received).toEqual(expected) // deep equality"><![CDATA[Error: expect(received).toEqual(expected) // deep equality
+
+Expected: 12
+Received: 21
+    at toEqual (D:\Lumi\chinese-blackjack\src\helpers\__tests__\card-helper.test.js:248:64)
+    at Array.forEach (<anonymous>)
+    at Object.forEach (D:\Lumi\chinese-blackjack\src\helpers\__tests__\card-helper.test.js:247:15)
+    at Promise.then.completed (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (<anonymous>)
+    at callAsyncCircusFn (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:121:9)
+    at run (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\testWorker.js:106:12)]]></failure>
+        </testCase>
+    </file>
+    <file path="D:\Lumi\chinese-blackjack\src\helpers\__tests__\dealer.test.js">
+        <testCase name="dealer generateResult should auto deal until it reach min value of dealer" duration="27"/>
+        <testCase name="dealer generateResult should not deal since hard point reached min value of dealer" duration="5"/>
+        <testCase name="dealer settle should return 0 if both dealer and player are blackjack" duration="5">
+            <failure message="Error: expect(received).toEqual(expected) // deep equality"><![CDATA[Error: expect(received).toEqual(expected) // deep equality
+
+Expected: 0
+Received: 1
+    at Object.toEqual (D:\Lumi\chinese-blackjack\src\helpers\__tests__\dealer.test.js:98:64)
+    at Promise.then.completed (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (<anonymous>)
+    at callAsyncCircusFn (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:121:9)
+    at run (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\testWorker.js:106:12)]]></failure>
+        </testCase>
+        <testCase name="dealer settle should return blackjack odds if player is blackjack but dealer is not" duration="0">
+            <failure message="Error: expect(received).toEqual(expected) // deep equality"><![CDATA[Error: expect(received).toEqual(expected) // deep equality
+
+Expected: 3.5
+Received: undefined
+    at toEqual (D:\Lumi\chinese-blackjack\src\helpers\__tests__\dealer.test.js:119:68)
+    at Array.forEach (<anonymous>)
+    at Object.forEach (D:\Lumi\chinese-blackjack\src\helpers\__tests__\dealer.test.js:118:19)
+    at Promise.then.completed (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (<anonymous>)
+    at callAsyncCircusFn (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:121:9)
+    at run (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\testWorker.js:106:12)]]></failure>
+        </testCase>
+        <testCase name="dealer settle should return blackjack odds if player is blackjack but splitted" duration="1">
+            <failure message="Error: expect(received).toEqual(expected) // deep equality"><![CDATA[Error: expect(received).toEqual(expected) // deep equality
+
+Expected: 3.5
+Received: undefined
+    at toEqual (D:\Lumi\chinese-blackjack\src\helpers\__tests__\dealer.test.js:154:68)
+    at Array.forEach (<anonymous>)
+    at Object.forEach (D:\Lumi\chinese-blackjack\src\helpers\__tests__\dealer.test.js:153:19)
+    at Promise.then.completed (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (<anonymous>)
+    at callAsyncCircusFn (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:121:9)
+    at run (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\testWorker.js:106:12)]]></failure>
+        </testCase>
+        <testCase name="dealer settle should return 0 if player is bust" duration="1"/>
+        <testCase name="dealer settle should return regular odds if player is greater than dealer and not bust" duration="1"/>
+        <testCase name="dealer settle should return 1 if both dealer and player are the same" duration="1"/>
+        <testCase name="dealer settle should return 1 if both dealer and player are the same" duration="1"/>
+        <testCase name="dealer isUpCards should be true if all hands are bust" duration="1"/>
+        <testCase name="dealer isUpCards should be true if all hands are blackjack" duration="1"/>
+        <testCase name="dealer isUpCards should be true if count of blackjack and bust are equal total hands" duration="0"/>
+        <testCase name="dealer isUpCards should be false if count of blackjack and bust are NOT equal total hands" duration="0"/>
+        <testCase name="dealer isUpCards should be true if count of blackjack and bust are equal total hands but blackjack hands were splitted" duration="0"/>
+    </file>
+    <file path="D:\Lumi\chinese-blackjack\src\helpers\__tests__\deck-helper.test.js">
+        <testCase name="deckHelper generateDeck when random mode is undefined should return valid deck of cards" duration="25"/>
+        <testCase name="deckHelper generateDeck when random mode is undefined should return deck of cards without exclusions" duration="5">
+            <failure message="Error: expect(received).toBe(expected) // Object.is equality"><![CDATA[Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 411
+Received: 99
+    at Object.toBe (D:\Lumi\chinese-blackjack\src\helpers\__tests__\deck-helper.test.js:32:49)
+    at Promise.then.completed (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (<anonymous>)
+    at callAsyncCircusFn (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:121:9)
+    at run (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\testWorker.js:106:12)]]></failure>
+        </testCase>
+        <testCase name="deckHelper generateDeck when random mode is 1 should return valid deck of cards" duration="1"/>
+        <testCase name="deckHelper generateDeck when random mode is 1 should return deck of cards without exclusions" duration="2">
+            <failure message="Error: expect(received).toBe(expected) // Object.is equality"><![CDATA[Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 412
+Received: 100
+    at Object.toBe (D:\Lumi\chinese-blackjack\src\helpers\__tests__\deck-helper.test.js:32:49)
+    at Promise.then.completed (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (<anonymous>)
+    at callAsyncCircusFn (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:121:9)
+    at run (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\testWorker.js:106:12)]]></failure>
+        </testCase>
+        <testCase name="deckHelper generateDeck when random mode is 2 should return valid deck of cards" duration="1"/>
+        <testCase name="deckHelper generateDeck when random mode is 2 should return deck of cards without exclusions" duration="1">
+            <failure message="Error: expect(received).toBe(expected) // Object.is equality"><![CDATA[Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 416
+Received: 104
+    at Object.toBe (D:\Lumi\chinese-blackjack\src\helpers\__tests__\deck-helper.test.js:32:49)
+    at Promise.then.completed (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (<anonymous>)
+    at callAsyncCircusFn (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:121:9)
+    at run (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\testWorker.js:106:12)]]></failure>
+        </testCase>
+        <testCase name="deckHelper generateDeck when random mode is 3 should return valid deck of cards" duration="3"/>
+        <testCase name="deckHelper generateDeck when random mode is 3 should return deck of cards without exclusions" duration="2">
+            <failure message="Error: expect(received).toBe(expected) // Object.is equality"><![CDATA[Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 408
+Received: 96
+    at Object.toBe (D:\Lumi\chinese-blackjack\src\helpers\__tests__\deck-helper.test.js:32:49)
+    at Promise.then.completed (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (<anonymous>)
+    at callAsyncCircusFn (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:121:9)
+    at run (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)
+    at jestAdapter (D:\Lumi\chinese-blackjack\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:19)
+    at runTestInternal (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\runTest.js:367:16)
+    at runTest (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\runTest.js:444:34)
+    at Object.worker (D:\Lumi\chinese-blackjack\node_modules\jest-cli\node_modules\jest-runner\build\testWorker.js:106:12)]]></failure>
+        </testCase>
+    </file>
+    <file path="D:\Lumi\chinese-blackjack\src\consumers\__tests__\user-deal-consumer.test.js">
+        <testCase name="consume test valid bet, add to betQueue, flag processing = true" duration="23"/>
+        <testCase name="consume test invalid bet, publish error to user, not creating ingame" duration="1"/>
+        <testCase name="validation test payload has bet amount exceed maxbet, return correct error" duration="1"/>
+        <testCase name="validation test payload has no hand, return correct error" duration="1"/>
+        <testCase name="validation test payload has hand having invalid postion, return correct error" duration="0"/>
+        <testCase name="validation test gameData has running round, return correct error" duration="1"/>
+    </file>
+    <file path="D:\Lumi\chinese-blackjack\src\consumers\__tests__\outgame-consumer.test.js">
+        <testCase name="test outgame consumer should save running round to database, clear the game data" duration="24"/>
+    </file>
+    <file path="D:\Lumi\chinese-blackjack\src\consumers\__tests__\user-hit-consumer.test.js">
+        <testCase name="consume test valid payload, add to betQueue, flag processing = true" duration="29"/>
+        <testCase name="consume test invalid payload, publish error to user, not updating betTracks" duration="1"/>
+        <testCase name="validation test cannot hit when busted, return correct error" duration="1"/>
+        <testCase name="validation test cannot hit when have 5 cards, return correct error" duration="1"/>
+        <testCase name="validation test hand is stand, return correct error" duration="0"/>
+        <testCase name="validation test invalid hand id, return correct error" duration="1"/>
+    </file>
+    <file path="D:\Lumi\chinese-blackjack\src\consumers\__tests__\user-stand-consumer.test.js">
+        <testCase name="consume test valid payload, add to betQueue, flag processing = true" duration="25"/>
+        <testCase name="consume test invalid payload, publish error to user, not updating betTracs" duration="1"/>
+        <testCase name="validation test hand is stand, return correct error" duration="2"/>
+        <testCase name="validation test invalid hand id, return correct error" duration="1"/>
+        <testCase name="validation test hand isnt active, return correct error" duration="1"/>
+    </file>
+    <file path="D:\Lumi\chinese-blackjack\src\consumers\__tests__\ingame-consumer.test.js">
+        <testCase name="test ingame consumer should store player into gamedata &amp; publish to user via socket correctly" duration="15"/>
+    </file>
+    <file path="D:\Lumi\chinese-blackjack\tests\routers\http-router.test.js">
+        <testCase name="HttpRouter should inherit TableHttpRouter" duration="14"/>
+        <testCase name="HttpRouter init should run correct" duration="2"/>
+        <testCase name="HttpRouter handleVoidTicket should run correctly when player is valid" duration="2"/>
+        <testCase name="HttpRouter handleVoidTicket should run incorrectly when player is invalid" duration="0"/>
+        <testCase name="HttpRouter handleSetResult should store in gameData.settlementResultFromAdmin" duration="1"/>
+    </file>
+    <file path="D:\Lumi\chinese-blackjack\src\crons\__tests__\process-bet-queue.test.js">
+        <testCase name="processBetQueue processDeal valid bet, start dealing cards, save to database, update bettracks, publish to user" duration="18"/>
+        <testCase name="processBetQueue processDeal valid bet, user stake change, start dealing cards, save to database, update bettracks, publish to user, update user stake level" duration="2"/>
+        <testCase name="processBetQueue processDeal placeBet return error, only publish errors to user" duration="4"/>
+        <testCase name="processBetQueue process hit tests should update betTracks and database" duration="3"/>
+        <testCase name="processBetQueue process hit tests should auto stand hand when total &gt; 21" duration="7"/>
+        <testCase name="processBetQueue process stand tests should update betTracks, database &amp; publish to user" duration="3"/>
+    </file>
+    <file path="D:\Lumi\chinese-blackjack\src\consumers\__tests__\settle-game-consumer.test.js">
+        <testCase name="settle round tests should delete ingame, publish round result delete data in game notification" duration="17"/>
+        <testCase name="settle bet tests should delete ingame, publish round result" duration="2"/>
     </file>
 </testExecutions>

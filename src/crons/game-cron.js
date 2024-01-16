@@ -107,7 +107,7 @@ export default class GameCron extends Core.Crons.BaseGameCron {
         await Promise.all(
             runningRounds.map(async (round) => {
                 const usedCards = [...round.result];
-                const hands = await this.betsRepository.find({ roundId: round.id }).lean().exec();
+                const hands = await this.betsRepository.find({ roundId: round.id }).sort({ pos: 1 }).lean().exec();
                 const userHands = hands.map((hand) => {
                     usedCards.push(...hand.cards);
 
@@ -117,7 +117,6 @@ export default class GameCron extends Core.Crons.BaseGameCron {
                         total: calculate(hand.cards),
                     };
                 });
-                userHands.sort((hand1, hand2) => gameSettings.posOrder.indexOf(hand1.pos) - gameSettings.posOrder.indexOf(hand2.pos));
 
                 const newPlayer = {
                     name: round.name,

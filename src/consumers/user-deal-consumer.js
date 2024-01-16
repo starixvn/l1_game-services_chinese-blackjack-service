@@ -14,15 +14,15 @@ export default class UserDealConsumer extends BaseActionConsumer {
 
         return criteria.concat([
             {
-                failure: deal.hands.find((hand) => !hand.bet || hand.bet < minBet),
+                failure: deal.hands.some((hand) => !hand.bet || hand.bet < minBet),
                 notice: this.getNoticeObj(noticeHelper.minBet, { minBet }),
             },
             {
-                failure: deal.hands.find((hand) => !hand.bet || hand.bet > maxBet),
+                failure: deal.hands.some((hand) => !hand.bet || hand.bet > maxBet),
                 notice: this.getNoticeObj(noticeHelper.maxBet, { maxBet }),
             },
             {
-                failure: deal.hands.some((hand) => !hand.pos || hand.pos < 1 || hand.pos > 3),
+                failure: deal.hands.some((hand) => !hand.pos || ![1, 2, 3].includes(hand.pos)),
                 notice: this.getNoticeObj(noticeHelper.invalidPosition),
             },
             {
@@ -30,7 +30,7 @@ export default class UserDealConsumer extends BaseActionConsumer {
                 notice: this.getNoticeObj(noticeHelper.invalidDealHands),
             },
             {
-                failure: this.gameData.ingame[player.profile.name]?.betTracks?.roundId,
+                failure: !!this.gameData.ingame[player.profile.name]?.betTracks?.roundId,
                 notice: this.getNoticeObj(noticeHelper.invalidDealDueToRunningRound),
             },
         ]);

@@ -41,7 +41,8 @@ beforeEach(() => {
         enableFreeBet: false,
         odds: {
             regular: 2,
-            blackjack: 2.5,
+            banBan: 2.5,
+            banLuck: 2.5,
         },
         choices_maxbet: null,
     };

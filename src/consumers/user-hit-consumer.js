@@ -1,6 +1,6 @@
 import constants from "../constants";
 import gameSettings from "../game-settings";
-import { calculate } from "../helpers/card-helper";
+import { calculate, calculateFinalValue } from "../helpers/card-helper";
 import noticeHelper from "../helpers/notice-helper";
 import BaseActionConsumer from "./base-action-consumer";
 
@@ -17,7 +17,7 @@ export default class UserHitConsumer extends BaseActionConsumer {
                 notice: this.getNoticeObj(noticeHelper.invalidHandId),
             },
             {
-                failure: hand?.cards?.length >= constants.maxCardsOnHand,
+                failure: calculateFinalValue(hand?.cards) > constants.blackjack || hand?.cards?.length >= constants.maxCardsOnHand,
                 notice: this.getNoticeObj(noticeHelper.cantHit),
             },
             {
