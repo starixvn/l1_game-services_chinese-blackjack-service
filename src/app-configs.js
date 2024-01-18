@@ -47,4 +47,7 @@ export default {
     },
     adminSecretKey: "asWDEerfOIdgsdqRTFabvmgh",
     roundMaxDuration: 24,
+    gameManagementApiSettings: {
+        BASE: "https://l1-proxy.lumigame.com/game-management-service",
+    },
 };
