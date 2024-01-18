@@ -1,7 +1,8 @@
 import { Core, Table } from "sc-game-base";
 import { initAPIStub, stubUserService, subGameManagementService } from "sc-game-service-integration-utils";
 import ContainerRegistry from "../../../src/container-registry";
-
+import GameDefinition from "../../../src/game-definition";
+import GameData from "../../../src/game-data";
 import gameSettings from "./game-settings";
 import { generateResult, settle } from "../../../src/helpers/dealer";
 import { buildConfigs } from "./helper";
@@ -9,8 +10,9 @@ import { buildConfigs } from "./helper";
 export const run = async (processId, overrideAppConfigs) => {
     const appConfigs = Object.assign({}, buildConfigs(processId), overrideAppConfigs);
     initAPIStub(appConfigs.apiSettings.apiUrl);
-    const definition = new Table.TableGameDefinition(gameSettings, generateResult, settle, gameSettings.actions, gameSettings.payouts);
-    const gameData = new Table.TableGameData(gameSettings.durations.wholeRound);
+    const definition = new GameDefinition(gameSettings, generateResult, settle, gameSettings.actions, gameSettings.payouts);
+
+    const gameData = new GameData(gameSettings.durations.wholeRound);
     stubUserService(appConfigs);
     subGameManagementService(appConfigs, definition);
     const container = new ContainerRegistry().register(appConfigs, definition, gameData);
