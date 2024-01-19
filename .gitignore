@@ -3,3 +3,5 @@
 
 .idea
 /.vscode/settings.json
+
+/reports/test-reporter.xml
