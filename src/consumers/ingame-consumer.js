@@ -1,6 +1,15 @@
 import { Core } from "sc-game-base";
+import ProvablyFairConsumer from "./provably-fair-consumer";
 
 export default class InGameConsumer extends Core.BaseEventConsumers.InGameConsumer {
+    /**
+     * @param {ProvablyFairConsumer} provablyFairConsumer
+     */
+    constructor(definition, gameData, roundQuery, publisher, getBalance, userInfosRepository, provablyFairConsumer) {
+        super(definition, gameData, roundQuery, publisher, getBalance, userInfosRepository);
+        this.provablyFairConsumer = provablyFairConsumer;
+    }
+
     async consume(realPlayer) {
         const payload = await this.buildPayload(realPlayer);
         const player = {
@@ -16,6 +25,7 @@ export default class InGameConsumer extends Core.BaseEventConsumers.InGameConsum
         }
 
         realPlayer.socketClient.emit(this.definition.name, payload);
+        this.provablyFairConsumer.generateNextResultAndPublish(realPlayer.UID);
     }
 
     async buildPayload(realPlayer) {

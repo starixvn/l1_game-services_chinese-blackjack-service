@@ -4,4 +4,8 @@ export default class RoundResultPublisher extends Core.BaseEventPublishers.BaseE
     publishRoundResult(roundResult) {
         this.publishToUser(roundResult.playerId, { finish: roundResult.result });
     }
+
+    publishResultHash(playerId, hashValue) {
+        this.publishToUser(playerId, { resultHash: { hashValue: hashValue } });
+    }
 }

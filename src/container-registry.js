@@ -1,6 +1,6 @@
 import awilix from "awilix";
 import { Table } from "sc-game-base";
-import { InGameConsumer, OutGameConsumer, UserDealConsumer, UserHitConsumer, UserStandConsumer } from "./consumers";
+import { InGameConsumer, OutGameConsumer, UserDealConsumer, UserHitConsumer, UserStandConsumer, ProvablyFairConsumer } from "./consumers";
 import SettleGameConsumer from "./consumers/settle-game-consumer";
 import GameCron from "./crons/game-cron";
 import PontoonBot from "./crons/bot";
@@ -9,6 +9,7 @@ import PontoonProcessBetQueue from "./crons/process-bet-queue";
 import { gameNotifications } from "sc-base-database";
 import { ChineseBlackjackBets } from "./models/chinese-blackjack-bets";
 import { ChineseBlackjackRounds } from "./models/chinese-blackjack-rounds";
+import { ChineseBlackjackResults } from "./models/chinese-blackjack-results";
 import RoundResultPublisher from "./publishers/round-result-publisher";
 import HistoryQuery from "./query-apis/history-query";
 import HttpRouter from "./routers/http-router";
@@ -24,6 +25,7 @@ export default class ContainerRegistry extends Table.TableContainerRegistry {
             roundsRepository: asValue(ChineseBlackjackRounds),
             betsRepository: asValue(ChineseBlackjackBets),
             gameNotificationsRepository: asValue(gameNotifications),
+            resultsRepository: asValue(ChineseBlackjackResults),
         });
     }
 
@@ -37,6 +39,7 @@ export default class ContainerRegistry extends Table.TableContainerRegistry {
             userDealConsumer: asClass(UserDealConsumer).singleton(),
             inGameConsumer: asClass(InGameConsumer).singleton(),
             userDisconnectConsumer: asClass(OutGameConsumer).singleton(),
+            provablyFairConsumer: asClass(ProvablyFairConsumer).singleton(),
         });
     }
 

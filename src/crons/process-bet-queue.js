@@ -23,6 +23,7 @@ export default class ProcessBetQueue extends Core.Crons.ProcessBetQueue {
         settleGameRoundConsumer,
         roundsRepository,
         baseMetrics,
+        provablyFairConsumer,
     }) {
         super({
             definition,
@@ -37,6 +38,7 @@ export default class ProcessBetQueue extends Core.Crons.ProcessBetQueue {
         });
         this.settleGameRoundConsumer = settleGameRoundConsumer;
         this.roundsRepository = roundsRepository;
+        this.provablyFairConsumer = provablyFairConsumer;
     }
 
     async proceedBet(player, payload) {
@@ -95,10 +97,10 @@ export default class ProcessBetQueue extends Core.Crons.ProcessBetQueue {
 
     async processDeal(player, payload) {
         const { betTracks } = this.gameData.ingame[player.profile.name];
-        const { randomMode } = this.gameData.gameConfigs;
         betTracks.dealer = { cards: [] };
         betTracks.hands = [];
         betTracks.uid = player.UID;
+        betTracks.deck = await this.provablyFairConsumer.applyClientSeed(player.UID, payload.clientSeed);
         let balance = {};
         let totalBet = 0;
         const failedHands = [];
@@ -133,7 +135,6 @@ export default class ProcessBetQueue extends Core.Crons.ProcessBetQueue {
 
         if (betTracks.hands.length > 0) {
             betTracks.hands.sort((hand1, hand2) => hand1.pos - hand2.pos);
-            betTracks.deck = generateDecks([], randomMode);
             betTracks.roundStartTime = new Date();
             this.dealCards(player.profile.name, betTracks);
             betTracks.activeHandId = betTracks.hands.find((hand) => !hand.isStand)?.id;
@@ -224,6 +225,7 @@ export default class ProcessBetQueue extends Core.Crons.ProcessBetQueue {
     }
 
     async processStand(player, payload) {
+        console.log("processStand");
         const { betTracks } = this.gameData.ingame[player.profile.name];
         const hand = betTracks.hands.find((currentHand) => currentHand.id === payload.id);
         hand.isStand = true;

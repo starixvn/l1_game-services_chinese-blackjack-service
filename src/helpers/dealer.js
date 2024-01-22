@@ -35,6 +35,10 @@ export const settle = (dealerCards, bet, odds) => {
     return winLoss == 0 ? 1 : 0;
 };
 
+export const generateRawResultForHash = (result) => {
+    return "result for hash";
+};
+
 const calculateWinLoss = (player, dealer) => {
     const compareRank = dealer.rank - player.rank;
     const compareValue = player.val - dealer.val;
