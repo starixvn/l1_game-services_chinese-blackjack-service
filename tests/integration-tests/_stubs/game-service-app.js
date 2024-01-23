@@ -4,7 +4,7 @@ import ContainerRegistry from "../../../src/container-registry";
 import GameDefinition from "../../../src/game-definition";
 import GameData from "../../../src/game-data";
 import gameSettings from "./game-settings";
-import { generateResult, settle, generateRawResultForHash } from "../../../src/helpers/dealer";
+import { generateResult, settle, generateRawResultForHash, applyClientSeed } from "../../../src/helpers/dealer";
 import { buildConfigs } from "./helper";
 
 export const run = async (processId, overrideAppConfigs) => {
@@ -15,6 +15,7 @@ export const run = async (processId, overrideAppConfigs) => {
         generateResult,
         settle,
         generateRawResultForHash,
+        applyClientSeed,
         gameSettings.actions,
         gameSettings.payouts
     );

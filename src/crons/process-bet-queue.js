@@ -140,6 +140,7 @@ export default class ProcessBetQueue extends Core.Crons.ProcessBetQueue {
             betTracks.activeHandId = betTracks.hands.find((hand) => !hand.isStand)?.id;
 
             await this.createRoundAndHandEntities(player);
+            await this.provablyFairConsumer.createResultRecord(player.UID, betTracks.roundId);
             this.placeBetPublisher.publishToUser(player.UID, {
                 deal: {
                     roundId: betTracks.roundId,

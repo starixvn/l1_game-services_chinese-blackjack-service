@@ -1,4 +1,4 @@
-import { cards } from "../card";
+import { suits } from "../card";
 import constants from "./../constants";
 import { calculateFinalValue, isBlackjack, getCombinationRank, isDoubleA, isBust, isUnqualified } from "./card-helper";
 
@@ -35,8 +35,14 @@ export const settle = (dealerCards, bet, odds) => {
     return winLoss == 0 ? 1 : 0;
 };
 
-export const generateRawResultForHash = (result) => {
-    return "result for hash";
+export const generateRawResultForHash = (result, salt) => {
+    const cards = result.map((card) => `${card.rank}${suits[card.suit]}`);
+    const formattedResult = { deck: cards.join(" "), secret: salt };
+    return JSON.stringify(formattedResult);
+};
+
+export const applyClientSeed = (result, clientSeed) => {
+    return result;
 };
 
 const calculateWinLoss = (player, dealer) => {

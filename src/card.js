@@ -33,4 +33,6 @@ Object.values(cardSuit).forEach((suit) => {
     Object.values(cardRank).forEach((rank) => cards.push(new Card(rank, suit)));
 });
 
-export { cards };
+const suits = ["♥", "♦", "♣", "♠"];
+
+export { cards, suits };

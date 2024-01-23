@@ -2,7 +2,7 @@ import { Core } from "sc-game-base";
 
 import appConfigs from "./app-configs";
 import gameSettings from "./game-settings";
-import { generateResult, settle, generateRawResultForHash } from "./helpers/dealer";
+import { generateResult, settle, generateRawResultForHash, applyClientSeed } from "./helpers/dealer";
 import ContainerRegistry from "./container-registry";
 import GameData from "./game-data";
 import GameDefinition from "./game-definition";
@@ -15,6 +15,7 @@ const run = async () => {
         generateResult,
         settle,
         generateRawResultForHash,
+        applyClientSeed,
         gameSettings.actions,
         gameSettings.payouts
     );

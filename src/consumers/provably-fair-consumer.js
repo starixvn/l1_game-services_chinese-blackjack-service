@@ -12,35 +12,36 @@ export default class ProvablyFairConsumer {
     generateNextResultAndPublish(playerId) {
         const { randomMode } = this.gameData.gameConfigs;
         this.gameData.nextResult[playerId] = generateDecks([], randomMode);
-        this.gameData.nextResultHash[playerId] = this.buildResultHash(this.gameData.nextResult[playerId]);
-        this.roundResultPublisher.publishResultHash(playerId, this.gameData.nextResultHash[playerId].hashValue);
+        this.gameData.serverSeed[playerId] = this.definition.generateRawResultForHash(
+            this.gameData.nextResult[playerId],
+            this.randomString()
+        );
+        this.gameData.hash[playerId] = this.createHash(this.gameData.serverSeed[playerId]);
+        this.roundResultPublisher.publishResultHash(playerId, this.gameData.hash[playerId]);
     }
 
     async applyClientSeed(playerId, clientSeed) {
-        const nextResult = this.gameData.nextResult[playerId];
         this.gameData.clientSeed[playerId] = clientSeed;
-        this.gameData.result[playerId] = nextResult; // to do: apply client seed
-        await this.createResultRecord();
-        return this.gameData.result[playerId];
+        this.gameData.finalResult[playerId] = this.definition.applyClientSeed(this.gameData.nextResult[playerId], clientSeed);
+
+        return this.gameData.finalResult[playerId];
     }
 
-    async createResultRecord() {}
+    async createResultRecord(playerId, roundId) {
+        await this.resultsRepository.create({
+            roundId: roundId,
+            clientSeed: this.gameData.clientSeed[playerId],
+            encryptedServerSeed: encrypt(this.gameData.serverSeed[playerId]),
+            hash: this.gameData.hash[playerId],
+            encryptedFinalResult: encrypt(JSON.stringify(this.gameData.finalResult[playerId])),
+            time: this.getNewDate(),
+        });
+    }
 
     async readResultRecord() {}
 
-    buildResultHash(result) {
-        const formattedResult = this.definition.generateRawResultForHash(result);
-
-        return this.generateMD5Result(formattedResult);
-    }
-
-    generateMD5Result(formattedResult) {
-        const formattedResultWithSalt = `${formattedResult}_${this.randomString()}}`;
-        return { hashValue: this.createHashMD5(formattedResultWithSalt), rawValue: formattedResultWithSalt };
-    }
-
-    createHashMD5(value) {
-        return crypto.createHash("md5").update(value).digest("hex");
+    createHash(value) {
+        return crypto.createHash("sha256").update(value).digest("hex");
     }
 
     randomString(length = 21) {
