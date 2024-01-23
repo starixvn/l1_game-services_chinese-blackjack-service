@@ -70,7 +70,7 @@ export default class ProcessBetQueue extends Core.Crons.ProcessBetQueue {
         const activeHand = betTracks.hands.find((hand) => hand.id === betTracks.activeHandId);
 
         if (activeHand?.isStand) {
-            const nextActiveHand = betTracks.hands.find((hand) => !hand.isStand && hand.pos === activeHand.pos + 1);
+            const nextActiveHand = betTracks.hands.find((hand) => !hand.isStand && hand.pos > activeHand.pos);
             betTracks.activeHandId = nextActiveHand?.id;
         }
     }

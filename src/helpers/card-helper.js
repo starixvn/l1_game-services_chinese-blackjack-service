@@ -74,6 +74,6 @@ export const isDoubleA = (cards) => cards.length === 2 && isAce(cards[0]) && isA
 export const isBlackjack = (cards) => cards.length === 2 && cards.some((card) => isAce(card) && cards.some((card) => isTenPoint(card)));
 
 export const isFiveCardTrick = (cards) => cards.length === constants.maxCardsOnHand && calculateFinalValue(cards) <= constants.blackjack;
-export const isUnqualified = (cards) => calculateFinalValue(cards) < constants.minPlayerPoint;
+export const isUnqualified = (cards) => calculateFinalValue(cards) < constants.minPlayerPoint && cards.length < constants.maxCardsOnHand;
 
 export const isBust = (cards) => calculate(cards)[0] > constants.blackjack;
