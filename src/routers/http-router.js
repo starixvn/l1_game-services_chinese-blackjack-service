@@ -53,6 +53,7 @@ export default class HttpRouter extends TableHttpRouter {
             }
 
             delete this.gameData.ingame[Name];
+            delete this.gameData.provablyFair[Name];
             await this.gameNotificationsRepository.deleteOne({ uid: UserIdentify, gameId: this.definition.id });
             logger.logError(`Void running ticket from api call for ${JSON.stringify(Name)}`);
             this.publisher.publishToUser(UserIdentify, { toLobby: true });

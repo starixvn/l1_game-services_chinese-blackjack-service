@@ -3,7 +3,7 @@ import * as Dealer from "../dealer";
 import * as Deck from "../deck-helper";
 
 describe("dealer", () => {
-    describe("generateResult", () => {
+    describe("generateDealerCards", () => {
         it("should auto deal until it reach min value of dealer", () => {
             const tests = [
                 {
@@ -28,7 +28,7 @@ describe("dealer", () => {
 
             tests.forEach((test) => {
                 const deck = Deck.generateDecks([...test.dealer, { rank: "J", suit: 1 }, { rank: "7", suit: 1 }]);
-                const result = Dealer.generateResult(test.dealer, deck, false, []);
+                const result = Dealer.generateDealerCards(test.dealer, deck, false, []);
                 expect(result.settlementResult).toBeGreaterThanOrEqual(constants.minDealerPoint);
             });
         });
@@ -74,7 +74,7 @@ describe("dealer", () => {
 
             tests.forEach((test) => {
                 const deck = Deck.generateDecks([...test.dealer, { rank: "J", suit: 1 }, { rank: "7", suit: 1 }]);
-                expect(Dealer.generateResult(test.dealer, deck).settlementResult).toEqual(test.total);
+                expect(Dealer.generateDealerCards(test.dealer, deck).settlementResult).toEqual(test.total);
             });
         });
     });

@@ -1,6 +1,6 @@
 import { gameNotifications } from "sc-base-database";
 import gameSettings from "../../game-settings";
-import { generateResult, isUpCards, settle } from "../../helpers/dealer";
+import { generateResult, isUpCards, settle, generateDealerCards } from "../../helpers/dealer";
 import { generateDecks } from "../../helpers/deck-helper";
 import GameData from "../../game-data";
 import GameDefinition from "../../game-definition";
@@ -156,7 +156,7 @@ describe("settle bet tests", () => {
             betTracks,
         };
 
-        const { result, settlementResult } = generateResult(betTracks.dealer.cards, betTracks.deck, isUpCards(betTracks.hands));
+        const { result, settlementResult } = generateDealerCards(betTracks.dealer.cards, betTracks.deck, isUpCards(betTracks.hands));
 
         const finish = {
             settlementResult,

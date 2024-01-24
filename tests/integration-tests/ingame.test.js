@@ -30,9 +30,9 @@ describe("ingame", () => {
         const hashData = await client.handleGameEvent((data) => data.resultHash);
         console.log("hashData", hashData);
 
-        client.close();
-
         // Assert
+        expect(hashData.resultHash.hashValue).toBe("ce8cdba8e3162532d2474fcd82971a8f83cb56b11371d030c9c1a92fca3b2c04");
+        client.close();
         //done();
     });
 });

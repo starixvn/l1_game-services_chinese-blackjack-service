@@ -39,6 +39,6 @@ export default class UserDealConsumer extends BaseActionConsumer {
     async consume(player, payload) {
         const { deal } = payload;
 
-        await super.consume(player, payload, { action: gameSettings.actions.deal, hands: deal.hands });
+        await super.consume(player, payload, { action: gameSettings.actions.deal, hands: deal.hands, clientSeed: deal.clientSeed });
     }
 }

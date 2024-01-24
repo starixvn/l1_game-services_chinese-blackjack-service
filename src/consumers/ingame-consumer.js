@@ -25,7 +25,7 @@ export default class InGameConsumer extends Core.BaseEventConsumers.InGameConsum
         }
 
         realPlayer.socketClient.emit(this.definition.name, payload);
-        this.provablyFairConsumer.generateNextResultAndPublish(realPlayer.UID);
+        this.provablyFairConsumer.generateNextResultAndPublish(realPlayer.UID, realPlayer.profile.name);
     }
 
     async buildPayload(realPlayer) {

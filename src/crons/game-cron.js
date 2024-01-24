@@ -31,6 +31,7 @@ export default class GameCron extends Core.Crons.BaseGameCron {
         partnerConfigRepository,
         currencyGroupRepository,
         currencyRepository,
+        provablyFairConsumer,
     }) {
         super({
             definition,
@@ -52,6 +53,7 @@ export default class GameCron extends Core.Crons.BaseGameCron {
         });
 
         this.betsRepository = betsRepository;
+        this.provablyFairConsumer = provablyFairConsumer;
     }
 
     async start() {
@@ -102,7 +104,6 @@ export default class GameCron extends Core.Crons.BaseGameCron {
 
     async initBetTracks() {
         const runningRounds = await this.roundsRepository.find({ ended: false }).lean().exec();
-        const { randomMode } = this.gameData.gameConfigs;
 
         await Promise.all(
             runningRounds.map(async (round) => {
@@ -119,13 +120,14 @@ export default class GameCron extends Core.Crons.BaseGameCron {
                 });
                 userHands.sort((hand1, hand2) => hand1.pos - hand2.pos);
 
+                const deck = await this.provablyFairConsumer.readResultRecord(round.name, round.id);
                 const newPlayer = {
                     name: round.name,
                     betTracks: {
                         roundId: round.id,
                         roundStartTime: round.roundStartTime,
                         uid: round.uid,
-                        deck: generateDecks(usedCards, randomMode),
+                        deck: deck.slice(usedCards.length),
                         dealer: { cards: [...round.result] },
                         hands: userHands,
                         activeHandId: userHands.find((hand) => !hand.isStand)?.id,

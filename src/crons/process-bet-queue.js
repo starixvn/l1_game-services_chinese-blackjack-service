@@ -100,7 +100,7 @@ export default class ProcessBetQueue extends Core.Crons.ProcessBetQueue {
         betTracks.dealer = { cards: [] };
         betTracks.hands = [];
         betTracks.uid = player.UID;
-        betTracks.deck = await this.provablyFairConsumer.applyClientSeed(player.UID, payload.clientSeed);
+        betTracks.deck = await this.provablyFairConsumer.applyClientSeed(player.profile.name, payload.clientSeed);
         let balance = {};
         let totalBet = 0;
         const failedHands = [];
@@ -139,8 +139,10 @@ export default class ProcessBetQueue extends Core.Crons.ProcessBetQueue {
             this.dealCards(player.profile.name, betTracks);
             betTracks.activeHandId = betTracks.hands.find((hand) => !hand.isStand)?.id;
 
-            await this.createRoundAndHandEntities(player);
-            await this.provablyFairConsumer.createResultRecord(player.UID, betTracks.roundId);
+            const roundId = this.gameData.roundId;
+            await this.provablyFairConsumer.createResultRecord(player.profile.name, roundId);
+            await this.createRoundAndHandEntities(player, roundId);
+
             this.placeBetPublisher.publishToUser(player.UID, {
                 deal: {
                     roundId: betTracks.roundId,
@@ -155,10 +157,10 @@ export default class ProcessBetQueue extends Core.Crons.ProcessBetQueue {
         }
     }
 
-    async createRoundAndHandEntities(player) {
+    async createRoundAndHandEntities(player, roundId) {
         const { betTracks } = this.gameData.ingame[player.profile.name];
         const { odds } = this.gameData.gameConfigs;
-        const { roundId, exchangeRates } = this.gameData;
+        const { exchangeRates } = this.gameData;
         this.gameData.roundId++;
 
         const newRound = await this.roundsRepository.create({

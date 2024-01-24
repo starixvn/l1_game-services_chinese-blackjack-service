@@ -1,5 +1,5 @@
-import { generateDecks } from "../helpers/deck-helper";
 import crypto from "crypto";
+import { encrypt, decrypt } from "sc-game-base/src/core/helpers/crypto-helper";
 
 export default class ProvablyFairConsumer {
     constructor(gameData, definition, roundResultPublisher, resultsRepository) {
@@ -9,36 +9,58 @@ export default class ProvablyFairConsumer {
         this.resultsRepository = resultsRepository;
     }
 
-    generateNextResultAndPublish(playerId) {
-        const { randomMode } = this.gameData.gameConfigs;
-        this.gameData.nextResult[playerId] = generateDecks([], randomMode);
-        this.gameData.serverSeed[playerId] = this.definition.generateRawResultForHash(
-            this.gameData.nextResult[playerId],
-            this.randomString()
-        );
-        this.gameData.hash[playerId] = this.createHash(this.gameData.serverSeed[playerId]);
-        this.roundResultPublisher.publishResultHash(playerId, this.gameData.hash[playerId]);
+    generateNextResultAndPublish(playerId, playerName) {
+        let provablyFair = this.gameData.provablyFair[playerName];
+        if (!provablyFair) {
+            provablyFair = {};
+            provablyFair.nextResult = this.definition.generateResult(this.gameData.gameConfigs.randomMode);
+            provablyFair.serverSeed = this.definition.generateRawResultForHash(provablyFair.nextResult, this.randomString());
+            provablyFair.hash = this.createHash(provablyFair.serverSeed);
+
+            this.gameData.provablyFair[playerName] = provablyFair;
+        }
+
+        this.roundResultPublisher.publishResultHash(playerId, provablyFair.hash);
     }
 
-    async applyClientSeed(playerId, clientSeed) {
-        this.gameData.clientSeed[playerId] = clientSeed;
-        this.gameData.finalResult[playerId] = this.definition.applyClientSeed(this.gameData.nextResult[playerId], clientSeed);
+    async applyClientSeed(playerName, clientSeed) {
+        const provablyFair = this.gameData.provablyFair[playerName];
+        provablyFair.clientSeed = clientSeed || 0;
+        provablyFair.finalResult = this.definition.applyClientSeed(provablyFair.nextResult, clientSeed);
 
-        return this.gameData.finalResult[playerId];
+        return provablyFair.finalResult;
     }
 
-    async createResultRecord(playerId, roundId) {
-        await this.resultsRepository.create({
-            roundId: roundId,
-            clientSeed: this.gameData.clientSeed[playerId],
-            encryptedServerSeed: encrypt(this.gameData.serverSeed[playerId]),
-            hash: this.gameData.hash[playerId],
-            encryptedFinalResult: encrypt(JSON.stringify(this.gameData.finalResult[playerId])),
-            time: this.getNewDate(),
-        });
+    async createResultRecord(playerName, roundId) {
+        const record = await this.findResultRecord(roundId);
+        if (!record) {
+            const provablyFair = this.gameData.provablyFair[playerName];
+            await this.resultsRepository.create({
+                roundId: roundId,
+                clientSeed: provablyFair.clientSeed,
+                encryptedServerSeed: encrypt(provablyFair.serverSeed),
+                hash: provablyFair.hash,
+                encryptedFinalResult: encrypt(JSON.stringify(provablyFair.finalResult)),
+                time: this.getNewDate(),
+            });
+        }
     }
 
-    async readResultRecord() {}
+    async readResultRecord(playerName, roundId) {
+        const record = await this.findResultRecord(roundId);
+        const provablyFair = {
+            hash: record.hash,
+            clientSeed: record.clientSeed,
+            finalResult: JSON.parse(decrypt(record.encryptedFinalResult)),
+        };
+        this.gameData.provablyFair[playerName] = provablyFair;
+
+        return provablyFair.finalResult;
+    }
+
+    async findResultRecord(roundId) {
+        return await this.resultsRepository.findOne({ roundId: roundId }).lean().exec();
+    }
 
     createHash(value) {
         return crypto.createHash("sha256").update(value).digest("hex");
@@ -46,5 +68,9 @@ export default class ProvablyFairConsumer {
 
     randomString(length = 21) {
         return crypto.randomBytes(length).toString("hex").slice(0, length);
+    }
+
+    getNewDate() {
+        return new Date();
     }
 }

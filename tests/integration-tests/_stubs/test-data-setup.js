@@ -11,9 +11,8 @@ import {
     normalUser,
 } from "sc-game-service-integration-utils";
 
-import { ChineseBlackjackBets } from "../../../src/models/chinese-blackjack-bets";
-import { ChineseBlackjackRounds } from "../../../src/models/chinese-blackjack-rounds";
-import { currencyData, game, gameConfig, roundsData, userBetData, promotions, userBetLogData } from "./test-data";
+import { bets, rounds, results } from "../../../src/models";
+import { currencyData, game, gameConfig, userRoundsData, userBetData, promotions, resultsData } from "./test-data";
 import { Core } from "sc-game-base";
 import { buildConfigs } from "./helper";
 
@@ -45,6 +44,7 @@ export const createTestData = async (processId, overrideGameConfigs) => {
     await createRounds();
     await createUserBetData();
     await createPromotionData();
+    await createResult();
 
     console.log("Create exchange rate, game config & dummy user for testing successfully!");
     process.exit(0);
@@ -56,18 +56,23 @@ const getUserId = async (playerId) => {
 };
 
 const createRounds = async () => {
-    return ChineseBlackjackRounds.insertMany(roundsData);
+    const userId = await getUserId(normalUser.playerId);
+    const roundsData = userRoundsData(userId);
+    return rounds.insertMany(roundsData);
 };
 
 const createUserBetData = async () => {
     const userId = await getUserId(normalUser.playerId);
     const betData = userBetData(userId);
-    return ChineseBlackjackBets.insertMany(betData);
+    return bets.insertMany(betData);
 };
 
 const createPromotionData = async () => {
-    console.log("create promotion", new Date());
     await Core.Models.Promotions.insertMany(promotions);
+};
+
+const createResult = async () => {
+    await results.insertMany(resultsData);
 };
 
 const processId = process.argv[3];

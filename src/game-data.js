@@ -4,9 +4,12 @@ export default class GameData extends Table.TableGameData {
     constructor(remainingTime) {
         super(remainingTime);
         this.betId = 0;
-        this.nextResult = {};
-        this.result = {};
+        this.provablyFair = {};
+
         this.clientSeed = {};
-        this.nextResultHash = {};
+        this.nextResult = {};
+        this.serverSeed = {};
+        this.hash = {};
+        this.finalResult = {};
     }
 }

@@ -1,7 +1,7 @@
 import { gameNotifications } from "sc-base-database";
 import { Core } from "sc-game-base";
 import { calculateFinalValue } from "../helpers/card-helper";
-import { isUpCards } from "../helpers/dealer";
+import { isUpCards, generateDealerCards } from "../helpers/dealer";
 
 export default class SettleGameConsumer extends Core.BaseEventConsumers.SettleGameRoundConsumer {
     constructor({
@@ -20,7 +20,7 @@ export default class SettleGameConsumer extends Core.BaseEventConsumers.SettleGa
 
     async settleRound(playerName) {
         const betTrack = this.gameData.ingame[playerName].betTracks;
-        const { result, settlementResult } = this.definition.generateResult(
+        const { result, settlementResult } = generateDealerCards(
             betTrack.dealer.cards,
             betTrack.deck,
             isUpCards(betTrack.hands),
@@ -49,7 +49,7 @@ export default class SettleGameConsumer extends Core.BaseEventConsumers.SettleGa
 
         await this.settleBets({ ...finish, playerName, playerUID: betTrack.uid });
 
-        this.provablyFairConsumer.generateNextResultAndPublish(betTrack.uid);
+        this.provablyFairConsumer.generateNextResultAndPublish(betTrack.uid, playerName);
         await gameNotifications.deleteOne({ uid: betTrack.uid, gameId: this.definition.id });
         delete this.gameData.settlementResultFromAdmin[playerName];
     }
@@ -87,6 +87,7 @@ export default class SettleGameConsumer extends Core.BaseEventConsumers.SettleGa
             );
 
             delete this.gameData.ingame[playerName];
+            delete this.gameData.provablyFair[playerName];
 
             const roundResult = { playerId: playerUID, result: this.collectRoundResult(result, settlementResult, winningHands) };
             this.roundResultPublisher.publishRoundResult(roundResult);

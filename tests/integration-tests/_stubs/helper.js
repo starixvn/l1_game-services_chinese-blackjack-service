@@ -27,6 +27,7 @@ export const getProcessId = (testFileName) => {
 
     const processId = filePaths.indexOf(testFileName) + 1;
 
+    console.log("processId", processId);
     return processId;
 };
 
