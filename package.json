@@ -5,7 +5,7 @@
     "main": "./src/app.js",
     "scripts": {
         "test": "jest --testPathIgnorePatterns=tests/integration-tests",
-        "test-coverage": "jest --collect-coverage",
+        "test-coverage": "jest --collect-coverage --testPathIgnorePatterns=tests/integration-tests",
         "integration-test": "jest --testPathPattern=tests/integration-tests",
         "dev": "nodemon --es-module-specifier-resolution=node --watch ./src ./src/app.js",
         "debug": "nodemon --es-module-specifier-resolution=node --watch ./ --inspect ./src/app.js",
