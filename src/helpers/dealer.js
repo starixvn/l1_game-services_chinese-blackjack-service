@@ -40,16 +40,17 @@ export const settle = (dealerCards, bet, odds) => {
     return winLoss == 0 ? 1 : 0;
 };
 
-export const generateRawResultForHash = (result, salt) => {
+export const formatResult = (result) => {
     const cards = result.map((card) => `${card.rank}${suits[card.suit]}`);
-    const formattedResult = { deck: cards.join(" "), secret: salt };
-    const v = JSON.stringify(formattedResult);
+    return cards.join(" ");
+};
 
-    return v;
+export const generateRawResultForHash = (result, salt) => {
+    return JSON.stringify({ deck: formatResult(result), secret: salt });
 };
 
 export const applyClientSeed = (result, clientSeed) => {
-    return result;
+    return result.slice(clientSeed).concat(result.slice(0, clientSeed));
 };
 
 const calculateWinLoss = (player, dealer) => {

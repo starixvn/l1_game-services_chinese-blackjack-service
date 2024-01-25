@@ -42,6 +42,11 @@ export default class SocketRouter extends Core.Routers.BaseSocketRouter {
         this.userDealConsumer = userDealConsumer;
     }
 
+    init(socketClient) {
+        super.init(socketClient);
+        this.socketClient.on("getProvablyFair", this.getProvablyFair.bind(this));
+    }
+
     async handlePlaceBet(payload) {
         try {
             if (!this.verify()) {
@@ -64,6 +69,23 @@ export default class SocketRouter extends Core.Routers.BaseSocketRouter {
             }
         } catch (error) {
             logger.logError(error);
+        }
+    }
+
+    async getProvablyFair(payload) {
+        try {
+            if (!this.verify()) {
+                return;
+            }
+
+            const provablyFair = await this.historyQuery.queryProvablyFair(
+                this.gameData.realPlayers[this.socketClient.id],
+                payload.roundId
+            );
+
+            this.socketClient.emit(this.definition.name, provablyFair);
+        } catch (error) {
+            this.logService.logError(error);
         }
     }
 }

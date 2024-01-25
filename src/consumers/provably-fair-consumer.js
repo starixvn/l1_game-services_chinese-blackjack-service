@@ -28,7 +28,7 @@ export default class ProvablyFairConsumer {
         provablyFair.clientSeed = clientSeed || 0;
         provablyFair.finalResult = this.definition.applyClientSeed(provablyFair.nextResult, clientSeed);
 
-        return provablyFair.finalResult;
+        return JSON.parse(JSON.stringify(provablyFair.finalResult));
     }
 
     async createResultRecord(playerName, roundId) {

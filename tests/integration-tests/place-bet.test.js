@@ -55,7 +55,7 @@ describe("signin", () => {
         const inGameData = await client.handleGameEvent((data) => data.gameConfigs);
         console.log("ingame", inGameData);
 
-        client.emit(eventTypes.bet, { deal: { hands: [{ pos: 2, bet: 1 }], clientSeed: 12 }, username: "NormalUser" });
+        client.emit(eventTypes.bet, { deal: { hands: [{ pos: 2, bet: 1 }], clientSeed: 3 }, username: "NormalUser" });
 
         const dealData = await client.handleGameEvent((data) => data.deal);
         console.log("deal", dealData, dealData.deal.hands[0].id);

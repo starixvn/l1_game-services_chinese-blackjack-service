@@ -1,6 +1,14 @@
 import { Core } from "sc-game-base";
+import { encrypt, decrypt } from "sc-game-base/src/core/helpers/crypto-helper";
+import { formatResult } from "../helpers/dealer";
 
 export default class HistoryQuery extends Core.QueryApis.HistoryQuery {
+    constructor(roundQuery, betsRepository, betLogsRepository, resultsRepository, roundsRepository) {
+        super(roundQuery, betsRepository, betLogsRepository);
+        this.resultsRepository = resultsRepository;
+        this.roundsRepository = roundsRepository;
+    }
+
     async queryHistory(player, page, pageSize = 8) {
         if (page < 1 || !player) {
             return {};
@@ -43,5 +51,23 @@ export default class HistoryQuery extends Core.QueryApis.HistoryQuery {
         }
 
         return { history: { betLogs, page, pageSize, total } };
+    }
+
+    async queryProvablyFair(player, roundId) {
+        let provablyFair = {};
+        const round = await this.roundsRepository.findOne({ id: roundId, uid: player.UID, ended: true }).lean().exec();
+        if (round) {
+            const resultRecord = await this.resultsRepository.findOne({ roundId: roundId }).lean().exec();
+            if (resultRecord) {
+                provablyFair = {
+                    hash: resultRecord.hash,
+                    clientSeed: resultRecord.clientSeed,
+                    serverSeed: decrypt(resultRecord.encryptedServerSeed),
+                    finalResult: formatResult(JSON.parse(decrypt(resultRecord.encryptedFinalResult))),
+                };
+            }
+        }
+
+        return { provablyFair };
     }
 }

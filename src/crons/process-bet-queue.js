@@ -5,7 +5,6 @@ import constants from "../constants";
 import SettleGameConsumer from "../consumers/settle-game-consumer";
 import gameSettings from "../game-settings";
 import { calculate, calculateFinalValue, isBlackjack, isDoubleA } from "../helpers/card-helper";
-import { generateDecks } from "../helpers/deck-helper";
 
 export default class ProcessBetQueue extends Core.Crons.ProcessBetQueue {
     /**
