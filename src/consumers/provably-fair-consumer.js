@@ -25,8 +25,8 @@ export default class ProvablyFairConsumer {
 
     applyClientSeed(playerName, clientSeed) {
         const provablyFair = this.gameData.provablyFair[playerName];
-        provablyFair.clientSeed = clientSeed || 0;
-        provablyFair.finalResult = this.definition.applyClientSeed(provablyFair.nextResult, clientSeed);
+        provablyFair.clientSeed = this.validateClientSeed(clientSeed) ? clientSeed : 0;
+        provablyFair.finalResult = this.definition.applyClientSeed(provablyFair.nextResult, provablyFair.clientSeed);
 
         return JSON.parse(JSON.stringify(provablyFair.finalResult));
     }
@@ -72,5 +72,10 @@ export default class ProvablyFairConsumer {
 
     getNewDate() {
         return new Date();
+    }
+
+    // check if clientSeed is int or string of int
+    validateClientSeed(clientSeed) {
+        return clientSeed == parseInt(clientSeed, 10);
     }
 }

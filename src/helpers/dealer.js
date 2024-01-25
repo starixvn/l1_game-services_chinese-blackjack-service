@@ -50,7 +50,11 @@ export const generateRawResultForHash = (result, salt) => {
 };
 
 export const applyClientSeed = (result, clientSeed) => {
-    return result.slice(clientSeed).concat(result.slice(0, clientSeed));
+    if (clientSeed >= 0 && clientSeed <= 103) {
+        return result.slice(clientSeed).concat(result.slice(0, clientSeed));
+    } else {
+        return result;
+    }
 };
 
 const calculateWinLoss = (player, dealer) => {
