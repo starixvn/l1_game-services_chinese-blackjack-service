@@ -74,6 +74,9 @@ beforeEach(() => {
 
 describe("test ingame consumer", () => {
     it("should store player into gamedata & publish to user via socket correctly", async () => {
+        consumer.provablyFairConsumer = {
+            generateNextResultAndPublish: jest.fn(),
+        };
         await consumer.consume(realPlayer);
         const expectedPlayer = {
             name: realPlayer.profile.name,

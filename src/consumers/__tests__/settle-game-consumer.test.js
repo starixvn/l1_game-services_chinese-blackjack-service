@@ -1,6 +1,6 @@
 import { gameNotifications } from "sc-base-database";
 import gameSettings from "../../game-settings";
-import { generateResult, isUpCards, settle, generateDealerCards } from "../../helpers/dealer";
+import { generateResult, isUpCards, settle, generateDealerCards, generateRawResultForHash } from "../../helpers/dealer";
 import { generateDecks } from "../../helpers/deck-helper";
 import GameData from "../../game-data";
 import GameDefinition from "../../game-definition";
@@ -41,7 +41,15 @@ const endGame = jest.fn();
 endGame.mockReturnValue({ isOk: true });
 
 beforeEach(() => {
-    definition = new GameDefinition(gameSettings, generateResult, settle, gameSettings.actions, gameSettings.payouts);
+    definition = new GameDefinition(
+        gameSettings,
+        generateResult,
+        settle,
+        generateRawResultForHash,
+        jest.fn(),
+        gameSettings.actions,
+        gameSettings.payouts
+    );
     gameData = new GameData(gameSettings.durations.wholeRound);
     gameData.gameConfigs = {
         enabled: true,
@@ -114,6 +122,9 @@ describe("settle round tests", () => {
             },
         ]);
 
+        consumer.provablyFairConsumer = {
+            generateNextResultAndPublish: jest.fn(),
+        };
         await consumer.settleRound("player");
         expect(roundResultPublisher.publishRoundResult).toHaveBeenCalled();
         expect(gameData.ingame["player"]).toBeUndefined();

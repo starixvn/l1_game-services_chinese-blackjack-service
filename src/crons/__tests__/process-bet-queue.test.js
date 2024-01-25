@@ -70,6 +70,10 @@ beforeEach(() => {
         settleGameRoundConsumer,
         baseMetrics,
     });
+    processBetQueue.provablyFairConsumer = {
+        applyClientSeed: jest.fn(() => "abc"),
+        createResultRecord: jest.fn(),
+    };
 
     jest.resetAllMocks();
 });
@@ -110,6 +114,9 @@ describe("processBetQueue", () => {
             };
             placeBet.mockReturnValue({ isOk: true, response: { minBet: 1, maxBet: 5000 } });
             roundsRepository.create.mockReturnValueOnce({ id: gameData.roundId + 1 });
+
+            processBetQueue.provablyFairConsumer.applyClientSeed = jest.fn(() => generateDecks());
+
             await processBetQueue.proceedBet(player, payload);
 
             expect(roundsRepository.create).toHaveBeenCalled();
@@ -132,6 +139,7 @@ describe("processBetQueue", () => {
             };
             placeBet.mockReturnValue({ isOk: true, response: { minBet: 1, maxBet: 3000 } });
             roundsRepository.create.mockReturnValueOnce({ id: gameData.roundId + 1 });
+            processBetQueue.provablyFairConsumer.applyClientSeed = jest.fn(() => generateDecks());
             await processBetQueue.proceedBet(player, payload);
 
             expect(roundsRepository.create).toHaveBeenCalled();
@@ -155,6 +163,7 @@ describe("processBetQueue", () => {
                 processing: true,
             };
             placeBet.mockReturnValue({ isOk: false, response: { apiError: { errorCode: 1000 } } });
+            processBetQueue.provablyFairConsumer.applyClientSeed = jest.fn(() => generateDecks());
             await processBetQueue.proceedBet(player, payload);
 
             expect(roundsRepository.create).not.toHaveBeenCalled();

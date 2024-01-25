@@ -99,7 +99,7 @@ export default class ProcessBetQueue extends Core.Crons.ProcessBetQueue {
         betTracks.dealer = { cards: [] };
         betTracks.hands = [];
         betTracks.uid = player.UID;
-        betTracks.deck = await this.provablyFairConsumer.applyClientSeed(player.profile.name, payload.clientSeed);
+        betTracks.deck = this.provablyFairConsumer.applyClientSeed(player.profile.name, payload.clientSeed);
         let balance = {};
         let totalBet = 0;
         const failedHands = [];
