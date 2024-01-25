@@ -56,7 +56,7 @@ export default class ContainerRegistry extends Table.TableContainerRegistry {
 
         this.container.register({
             socketRouter: asClass(SocketRouter).proxy(),
-            httpRouter: asClass(HttpRouter),
+            httpRouter: asClass(HttpRouter).proxy(),
         });
     }
 

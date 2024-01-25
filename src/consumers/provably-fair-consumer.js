@@ -59,7 +59,7 @@ export default class ProvablyFairConsumer {
     }
 
     async findResultRecord(roundId) {
-        return await this.resultsRepository.findOne({ roundId: roundId }).lean().exec();
+        return this.resultsRepository.findOne({ roundId: roundId }).lean().exec();
     }
 
     createHash(value) {
@@ -74,8 +74,7 @@ export default class ProvablyFairConsumer {
         return new Date();
     }
 
-    // check if clientSeed is int or string of int
     validateClientSeed(clientSeed) {
-        return clientSeed == parseInt(clientSeed, 10);
+        return Number.isInteger(parseInt(clientSeed));
     }
 }

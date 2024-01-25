@@ -2,7 +2,7 @@ import { logger, utils } from "sc-common";
 import TableHttpRouter from "sc-game-base/src/table/routers/table-http-router";
 
 export default class HttpRouter extends TableHttpRouter {
-    constructor(
+    constructor({
         appConfigs,
         gameData,
         historyQuery,
@@ -11,8 +11,8 @@ export default class HttpRouter extends TableHttpRouter {
         logService,
         definition,
         publisher,
-        gameNotificationsRepository
-    ) {
+        gameNotificationsRepository,
+    }) {
         super(appConfigs, gameData, historyQuery, userSessionsRepository, metricQuery, logService);
 
         this.definition = definition;

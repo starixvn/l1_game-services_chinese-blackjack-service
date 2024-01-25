@@ -30,14 +30,14 @@ export const settle = (dealerCards, bet, odds) => {
         val: calculateFinalValue(dealerCards),
     };
 
-    let winLoss = calculateWinLoss(player, dealer);
+    const winLoss = calculateWinLoss(player, dealer);
 
     if (winLoss > 0) {
         const combinationKey = Object.keys(constants.combinationRank).find((key) => constants.combinationRank[key] === player.rank);
         return odds[combinationKey];
     }
 
-    return winLoss == 0 ? 1 : 0;
+    return winLoss === 0 ? 1 : 0;
 };
 
 export const formatResult = (result) => {
@@ -63,14 +63,14 @@ const calculateWinLoss = (player, dealer) => {
 
     let winLoss = compareRank;
 
-    if (player.rank == constants.combinationRank.bust) {
+    if (player.rank === constants.combinationRank.bust) {
         return -1;
     }
 
-    if (compareRank == 0) {
+    if (compareRank === 0) {
         winLoss = compareValue;
 
-        if (player.rank == constants.combinationRank.fiveCardTrick) {
+        if (player.rank === constants.combinationRank.fiveCardTrick) {
             winLoss = -compareValue;
         }
     }
