@@ -213,7 +213,7 @@ export default class ProcessBetQueue extends Core.Crons.ProcessBetQueue {
         bet.softPoints = calculate(bet.cards);
         bet.actions.push(gameSettings.actions.hit);
 
-        if (bet.total > constants.blackjack || bet.cards.length === constants.maxCardsOnHand) {
+        if (bet.total > constants.blackjack || bet.cards.length === constants.maxCardsOnHand || hand.total[0] === constants.blackjack) {
             hand.isStand = true;
             hand.actions.push(gameSettings.actions.stand);
             bet.actions.push(gameSettings.actions.stand);
