@@ -57,13 +57,15 @@ export default class HistoryQuery extends Core.QueryApis.HistoryQuery {
         let provablyFair = {};
         const round = await this.roundsRepository.findOne({ id: roundId, uid: player.UID, ended: true }).lean().exec();
         if (round) {
+            const bets = await this.betsRepository.find({ roundId: roundId }).lean().exec();
             const resultRecord = await this.resultsRepository.findOne({ roundId: roundId }).lean().exec();
-            if (resultRecord) {
+            if (bets && resultRecord) {
                 provablyFair = {
                     hash: resultRecord.hash,
                     clientSeed: resultRecord.clientSeed,
                     serverSeed: decrypt(resultRecord.encryptedServerSeed),
                     finalResult: formatResult(JSON.parse(decrypt(resultRecord.encryptedFinalResult))),
+                    handIds: bets.map((bet) => bet.id).join(","),
                 };
             }
         }

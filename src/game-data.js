@@ -5,11 +5,5 @@ export default class GameData extends Table.TableGameData {
         super(remainingTime);
         this.betId = 0;
         this.provablyFair = {};
-
-        this.clientSeed = {};
-        this.nextResult = {};
-        this.serverSeed = {};
-        this.hash = {};
-        this.finalResult = {};
     }
 }
