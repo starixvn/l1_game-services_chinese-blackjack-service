@@ -9,8 +9,8 @@ const odds = {
     fiveCardTrick: 3,
 };
 
-function run() {
-    const totalRounds = 100_000;
+function run(total, randomMode) {
+    const totalRounds = total;
     const cardStatistic = {
         A: { count: 0, ratio: 0 },
         K: { count: 0, ratio: 0 },
@@ -50,10 +50,9 @@ function run() {
 
     const { player, dealer } = blackJackStatistic;
 
-    const totalHand = 1;
-    const randomMode = 3;
+    const totalHand = 3;
 
-    let rtp = totalRounds * totalHand;
+    let rtp = 0;
 
     for (let index = 0; index < totalRounds; index++) {
         const desk = generateDecks([], randomMode);
@@ -85,7 +84,7 @@ function run() {
             isBlackjack(playerCards[handIndex]) && player[handIndex].banluck.count++;
             isDoubleA(playerCards[handIndex]) && player[handIndex].banban.count++;
 
-            while (playerCards[handIndex].length < 5 && calculateFinalValue(playerCards[handIndex]) < 17) {
+            while (playerCards[handIndex].length < 5 && playerHit(playerCards[handIndex])) {
                 playerCards[handIndex].push(desk.shift());
             }
 
@@ -109,7 +108,7 @@ function run() {
             //if (!isBust(hand)) {
             const rs = settle(dealerCards, { cards: hand }, odds);
 
-            rtp -= rs;
+            rtp += rs;
             //}
         });
     }
@@ -130,8 +129,18 @@ function run() {
     });
 
     console.log(`======== Run ${totalRounds} rounds ========`);
-    console.log(100 - (rtp / totalRounds) * 100);
+    console.log((rtp / (totalRounds * totalHand)) * 100);
     console.log(JSON.stringify(blackJackStatistic, undefined, 2));
 }
 
-run();
+function playerHit(playerCards) {
+    const score = calculateFinalValue(playerCards);
+    const hasA = playerCards.find((card) => card.rank === "A");
+
+    const condition1 = score >= 16 && score <= 17 && hasA;
+    //condition1 && console.log(playerCards);
+
+    return score < 16 || condition1;
+}
+
+run(1000000, 2);
