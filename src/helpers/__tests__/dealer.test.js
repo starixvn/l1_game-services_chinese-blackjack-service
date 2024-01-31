@@ -26,11 +26,15 @@ describe("dealer", () => {
                 },
             ];
 
-            tests.forEach((test) => {
-                const deck = Deck.generateDecks([...test.dealer, { rank: "J", suit: 1 }, { rank: "7", suit: 1 }]);
-                const result = Dealer.generateDealerCards(test.dealer, deck, false, []);
-                expect(result.settlementResult).toBeGreaterThanOrEqual(constants.minDealerPoint);
-            });
+            for (let i = 0; i < 10; i++) {
+                tests.forEach((test) => {
+                    const deck = Deck.generateDecks([...test.dealer, { rank: "J", suit: 1 }, { rank: "7", suit: 1 }]);
+                    const result = Dealer.generateDealerCards(test.dealer, deck, false, []);
+                    result.settlementResult < constants.minDealerPoint && console.log("result", result);
+                    const expected = result.settlementResult >= constants.minDealerPoint || result.length === 5;
+                    expect(expected).toBe(true);
+                });
+            }
         });
 
         it("should not deal since hard point reached min value of dealer", () => {

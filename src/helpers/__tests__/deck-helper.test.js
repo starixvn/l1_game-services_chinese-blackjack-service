@@ -1,6 +1,7 @@
+import { generateDecks } from "../deck-helper";
 import Chance from "chance";
 import { cards } from "../../card";
-import { generateDecks } from "../deck-helper";
+import * as _ from "lodash";
 
 describe("deckHelper", () => {
     describe("generateDeck", () => {

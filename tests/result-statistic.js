@@ -1,6 +1,6 @@
 import { calculateFinalValue, isBlackjack, isBust, isDoubleA, isFiveCardTrick } from "../src/helpers/card-helper";
 import { generateDecks } from "../src/helpers/deck-helper";
-import { settle } from "../src/helpers/dealer";
+import { settle, isUpCards, generateDealerCards } from "../src/helpers/dealer";
 
 const odds = {
     banBan: 3,
@@ -9,8 +9,7 @@ const odds = {
     fiveCardTrick: 3,
 };
 
-function run(total, randomMode) {
-    const totalRounds = total;
+function run({ totalRounds, randomMode, totalHand }) {
     const cardStatistic = {
         A: { count: 0, ratio: 0 },
         K: { count: 0, ratio: 0 },
@@ -49,8 +48,6 @@ function run(total, randomMode) {
     };
 
     const { player, dealer } = blackJackStatistic;
-
-    const totalHand = 3;
 
     let rtp = 0;
 
@@ -92,14 +89,21 @@ function run(total, randomMode) {
             isFiveCardTrick(playerCards[handIndex]) && player[handIndex].five.count++;
         }
 
-        const dealerCards = [desk.shift(), desk.shift()];
+        let dealerCards = [desk.shift(), desk.shift()];
 
         isBlackjack(dealerCards) && dealer.banluck.count++;
         isDoubleA(dealerCards) && dealer.banban.count++;
 
-        while (dealerCards.length < 5 && calculateFinalValue(dealerCards) < 17) {
-            dealerCards.push(desk.shift());
-        }
+        const isUp = isUpCards(
+            playerCards.map((cards) => {
+                return {
+                    cards: cards,
+                };
+            })
+        );
+
+        const { result } = generateDealerCards(dealerCards, desk, isUp, []);
+        dealerCards = result;
 
         isBust(dealerCards) && dealer.bust.count++;
         isFiveCardTrick(dealerCards) && dealer.five.count++;
@@ -143,4 +147,4 @@ function playerHit(playerCards) {
     return score < 16 || condition1;
 }
 
-run(1000000, 2);
+run({ totalRounds: 100000, randomMode: 1, totalHand: 1 });
