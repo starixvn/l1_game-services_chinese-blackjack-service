@@ -5,7 +5,10 @@ export default class RoundResultPublisher extends Core.BaseEventPublishers.BaseE
         this.publishToUser(roundResult.playerId, { finish: roundResult.result });
     }
 
-    publishResultHash(playerId, hashValue) {
-        this.publishToUser(playerId, { resultHash: { hashValue: hashValue } });
+    publishProvablyFair(playerId, provablyFair) {
+        this.publishToUser(playerId, {
+            resultHash: { hashValue: provablyFair.hash },
+            ...(provablyFair.clientSeed && { clientSeed: provablyFair.clientSeed }),
+        });
     }
 }

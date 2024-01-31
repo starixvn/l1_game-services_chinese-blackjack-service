@@ -32,6 +32,7 @@ describe("ingame", () => {
 
         // Assert
         expect(hashData.resultHash.hashValue).toBe("0b646dd45cf2c643ae51cf0e09c1881ec19f168cd29c9ba2668a4818be590aba");
+        expect(hashData.clientSeed).toBe(3);
         client.close();
         //done();
     });

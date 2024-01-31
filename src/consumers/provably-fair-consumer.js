@@ -20,7 +20,7 @@ export default class ProvablyFairConsumer {
             this.gameData.provablyFair[playerName] = provablyFair;
         }
 
-        this.roundResultPublisher.publishResultHash(playerId, provablyFair.hash);
+        this.roundResultPublisher.publishProvablyFair(playerId, provablyFair);
     }
 
     applyClientSeed(playerName, clientSeed) {
