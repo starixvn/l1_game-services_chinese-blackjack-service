@@ -65,7 +65,10 @@ export default class HistoryQuery extends Core.QueryApis.HistoryQuery {
                     clientSeed: resultRecord.clientSeed,
                     serverSeed: decrypt(resultRecord.encryptedServerSeed),
                     finalResult: formatResult(JSON.parse(decrypt(resultRecord.encryptedFinalResult))),
-                    handIds: bets.map((bet) => bet.id).join(","),
+                    handIds: bets
+                        .map((bet) => bet.id)
+                        .sort()
+                        .join(","),
                 };
             }
         }

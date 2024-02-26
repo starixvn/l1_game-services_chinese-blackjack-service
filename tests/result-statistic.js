@@ -4,7 +4,7 @@ import { settle, isUpCards, generateDealerCards } from "../src/helpers/dealer";
 
 const odds = {
     banBan: 3,
-    banLuck: 2,
+    banLuck: 2.5,
     regular: 2,
     fiveCardTrick: 3,
 };
@@ -147,4 +147,4 @@ function playerHit(playerCards) {
     return score < 16 || condition1;
 }
 
-run({ totalRounds: 100000, randomMode: 1, totalHand: 1 });
+run({ totalRounds: 1000000, randomMode: 3, totalHand: 3 });
