@@ -25,6 +25,7 @@
         "random": "^3.0.6"
     },
     "resolutions": {
+        "sc-base-apis": "1.18.2",
         "sc-game-base": "4.1.0"
     },
     "devDependencies": {
