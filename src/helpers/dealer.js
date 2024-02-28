@@ -63,7 +63,7 @@ const calculateWinLoss = (player, dealer) => {
 
     let winLoss = compareRank;
 
-    if (player.rank === constants.combinationRank.bust) {
+    if (player.rank === constants.combinationRank.bust || player.rank === constants.combinationRank.unqualified) {
         return -1;
     }
 
