@@ -41,28 +41,37 @@ export default class ProcessBetQueue extends Core.Crons.ProcessBetQueue {
     }
 
     async proceedBet(player, payload) {
-        switch (payload.action) {
-            case gameSettings.actions.deal:
-                await this.processDeal(player, payload);
-                break;
-            case gameSettings.actions.hit:
-                await this.processHit(player, payload);
-                break;
-            case gameSettings.actions.stand:
-                await this.processStand(player, payload);
-                break;
-        }
+        try {
+            switch (payload.action) {
+                case gameSettings.actions.deal:
+                    await this.processDeal(player, payload);
+                    break;
+                case gameSettings.actions.hit:
+                    await this.processHit(player, payload);
+                    break;
+                case gameSettings.actions.stand:
+                    await this.processStand(player, payload);
+                    break;
+            }
 
-        const { betTracks } = this.gameData.ingame[player.profile.name];
-        this.gameData.ingame[player.profile.name].processing = false;
+            const { betTracks } = this.gameData.ingame[player.profile.name];
+            this.gameData.ingame[player.profile.name].processing = false;
 
-        const totalProcessedTime = (new Date() - payload.receivedTime) / 1000;
-        this.baseMetrics.collectBetProcessedTime(totalProcessedTime);
+            const totalProcessedTime = (new Date() - payload.receivedTime) / 1000;
+            this.baseMetrics.collectBetProcessedTime(totalProcessedTime);
 
-        if (betTracks.hands.every((hand) => hand.isStand) && betTracks.hands.length > 0) {
-            await this.settleGameRoundConsumer.settleRound(player.profile.name);
-        } else {
-            this.updateActiveHand(player);
+            if (betTracks.hands.every((hand) => hand.isStand) && betTracks.hands.length > 0) {
+                await this.settleGameRoundConsumer.settleRound(player.profile.name);
+            } else {
+                this.updateActiveHand(player);
+            }
+        } catch (error) {
+            this.gameData.ingame[player.profile.name].betTracks = {};
+            this.gameData.ingame[player.profile.name].processing = false;
+            delete this.gameData.provablyFair[player.profile.name];
+            this.handleFailedBet(player, { errorCode: helpers.noticeHelper.cannotPlaceBet });
+            this.provablyFairConsumer.generateNextResultAndPublish(player.UID, player.profile.name);
+            this.logService.logError(error);
         }
     }
 
@@ -139,8 +148,8 @@ export default class ProcessBetQueue extends Core.Crons.ProcessBetQueue {
             betTracks.activeHandId = betTracks.hands.find((hand) => !hand.isStand)?.id;
 
             const roundId = this.gameData.roundId;
-            await this.provablyFairConsumer.createResultRecord(player.profile.name, roundId);
             await this.createRoundAndHandEntities(player, roundId);
+            await this.provablyFairConsumer.createResultRecord(player.profile.name, roundId);
 
             this.placeBetPublisher.publishToUser(player.UID, {
                 deal: {
